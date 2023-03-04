@@ -74,7 +74,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		}
 	}
 	public enum GameStatus {
-		INTRO,MENU,OPTION,TUTORIAL,PLAY,STAGE
+		INTRO,MENU,OPTION,TUTORIAL,PLAY
 	}
 	public static GameStatus gameStatus;
 	public static InputMultiplexer inputMultiplexer;
@@ -102,7 +102,13 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	public void update(){
 		stateTime += Gdx.graphics.getDeltaTime();
 		mechanism.update();
-		introduction.update();
+		if(introduction != null){
+			introduction.update();
+			if(introduction.alpha == 300){
+				introduction.dispose();
+				introduction = null;
+			}
+		}
 		main_background.update();
 	}
 	@Override
@@ -120,8 +126,9 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		}
 		//Mechanism render
 		main_background.render();
-		introduction.render();
-
+		if(introduction != null){
+			introduction.render();
+		}
 		screenViewport.apply();
 		switch (gameStatus){
 			case MENU:
