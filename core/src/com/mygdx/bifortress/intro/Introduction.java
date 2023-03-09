@@ -108,6 +108,7 @@ public class Introduction {
             shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
             Color color;
             if(alpha <= 100){
+                hasIntro = true;
                 color = new Color(0, 0, 0, alpha/100f);
             }
             else{

@@ -6,6 +6,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -26,6 +28,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	Background main_background;
 	Mechanism mechanism;
 	Introduction introduction;
+	Texture BiFortressLogo;
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -80,15 +83,17 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	public static InputMultiplexer inputMultiplexer;
 	public static int isScrolled;
 	public static float stateTime;
+	public static boolean hasIntro = false;
 	@Override
 	public void create() {
+		BiFortressLogo = new Texture(Gdx.files.internal("ui/BiFortress/BiFortress Logo.png"));
 		spriteBatch = new SpriteBatch();
 		inputMultiplexer = new InputMultiplexer();
 		fillViewport = new FillViewport(GAME_WIDTH, GAME_HEIGHT);
 		fitViewport = new FitViewport(GAME_WIDTH, GAME_HEIGHT);
 		gameViewport = new ExtendViewport(1080, 675);
 		main_background = new Background("Background/Green.png",1);
-		gameStatus = GameStatus.PLAY;
+		gameStatus = GameStatus.MENU;
 		screenViewport = new ScreenViewport();
 		mechanism = new Mechanism(Mechanism.MechStatus.ENDLESS);
 		introduction = new Introduction();
@@ -104,11 +109,22 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		mechanism.update();
 		if(introduction != null){
 			introduction.update();
-			if(introduction.alpha == 300){
-				introduction.dispose();
-				introduction = null;
-			}
 		}
+		switch(gameStatus){
+			case MENU:
+				if(introduction != null){
+					if(introduction.alpha == 300){
+						introduction.dispose();
+						introduction = null;
+					}
+				}
+				else{
+
+				}
+				break;
+			default:
+		}
+
 		main_background.update();
 	}
 	@Override
@@ -126,6 +142,14 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		}
 		//Mechanism render
 		main_background.render();
+		if(gameStatus == GameStatus.MENU && hasIntro){
+			spriteBatch.begin();
+			Sprite sprite = new Sprite(BiFortressLogo);
+			sprite.setOrigin(632,395);
+			sprite.setBounds(GAME_WIDTH/2-632/2-27,GAME_HEIGHT/2-395/2,632,395);
+			sprite.draw(spriteBatch);
+			spriteBatch.end();
+		}
 		if(introduction != null){
 			introduction.render();
 		}
@@ -153,6 +177,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public void dispose() {
+		BiFortressLogo.dispose();
 		spriteBatch.dispose();
 		main_background.dispose();
 		mechanism.dispose();
