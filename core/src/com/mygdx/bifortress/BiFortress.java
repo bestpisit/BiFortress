@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.bifortress.intro.Introduction;
 import com.mygdx.bifortress.mechanism.Mechanism;
+import com.mygdx.bifortress.menu.Menu;
 
 public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	public static SpriteBatch spriteBatch;
@@ -29,6 +30,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	Mechanism mechanism;
 	Introduction introduction;
 	Texture BiFortressLogo;
+	Menu menu;
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -103,6 +105,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		isScrolled = 0;
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		stateTime = 0;
+		menu = new Menu();
 	}
 	public void update(){
 		stateTime += Gdx.graphics.getDeltaTime();
@@ -118,9 +121,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 						introduction = null;
 					}
 				}
-				else{
-
-				}
+				menu.update();
 				break;
 			default:
 		}
@@ -154,8 +155,10 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 			introduction.render();
 		}
 		screenViewport.apply();
+		spriteBatch.setProjectionMatrix(screenViewport.getCamera().combined);
 		switch (gameStatus){
 			case MENU:
+				menu.render();
 			case PLAY:
 			case OPTION:
 				break;
@@ -181,5 +184,6 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		spriteBatch.dispose();
 		main_background.dispose();
 		mechanism.dispose();
+		menu.dispose();
 	}
 }
