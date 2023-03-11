@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -28,8 +29,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	public static ExtendViewport gameViewport;
 	Background main_background;
 	Mechanism mechanism;
-	Introduction introduction;
-	Texture BiFortressLogo;
+	public static Introduction introduction;
 	Menu menu;
 
 	@Override
@@ -86,9 +86,13 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	public static int isScrolled;
 	public static float stateTime;
 	public static boolean hasIntro = false;
+	static float changeProgress;
+	static float cProgress;
+	static boolean modeChange;
+	static GameStatus nextStatus;
+	ShapeRenderer shapeRenderer;
 	@Override
 	public void create() {
-		BiFortressLogo = new Texture(Gdx.files.internal("ui/BiFortress/BiFortress Logo.png"));
 		spriteBatch = new SpriteBatch();
 		inputMultiplexer = new InputMultiplexer();
 		fillViewport = new FillViewport(GAME_WIDTH, GAME_HEIGHT);
@@ -106,6 +110,10 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		stateTime = 0;
 		menu = new Menu();
+		modeChange = false;
+		changeProgress = 0;
+		nextStatus = GameStatus.MENU;
+		shapeRenderer = new ShapeRenderer();
 	}
 	public void update(){
 		stateTime += Gdx.graphics.getDeltaTime();
@@ -125,8 +133,18 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 				break;
 			default:
 		}
-
 		main_background.update();
+		if(changeProgress < cProgress){
+			changeProgress += 0.5f+changeProgress*0.1f;
+		}
+		else{
+			changeProgress = cProgress;
+			if(modeChange == true){
+				modeChange = false;
+				changeProgress = 0;
+				gameStatus = nextStatus;
+			}
+		}
 	}
 	@Override
 	public void render() {
@@ -137,20 +155,8 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 
 		fillViewport.apply();
 		spriteBatch.setProjectionMatrix(fillViewport.getCamera().combined);
-		switch (gameStatus){
-			default:
-				main_background.render();
-		}
 		//Mechanism render
 		main_background.render();
-		if(gameStatus == GameStatus.MENU && hasIntro){
-			spriteBatch.begin();
-			Sprite sprite = new Sprite(BiFortressLogo);
-			sprite.setOrigin(632,395);
-			sprite.setBounds(GAME_WIDTH/2-632/2-27,GAME_HEIGHT/2-395/2,632,395);
-			sprite.draw(spriteBatch);
-			spriteBatch.end();
-		}
 		if(introduction != null){
 			introduction.render();
 		}
@@ -168,6 +174,18 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		fitViewport.apply();
 		spriteBatch.setProjectionMatrix(fitViewport.getCamera().combined);
 		isScrolled = 0;
+
+		screenViewport.apply();
+		spriteBatch.setProjectionMatrix(screenViewport.getCamera().combined);
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
+		Color color = new Color(0,0,0,(modeChange)?changeProgress/cProgress:1-changeProgress/cProgress);
+		shapeRenderer.setColor(color);
+		shapeRenderer.rect(0,0,screenViewport.getScreenWidth(),screenViewport.getScreenHeight());
+		shapeRenderer.end();
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 
 	@Override
@@ -180,10 +198,18 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public void dispose() {
-		BiFortressLogo.dispose();
 		spriteBatch.dispose();
 		main_background.dispose();
 		mechanism.dispose();
 		menu.dispose();
+	}
+
+	public static void changeMode(GameStatus gameStatus,int duration){
+		if(modeChange == false){
+			nextStatus = gameStatus;
+			modeChange = true;
+			changeProgress = 0;
+			cProgress = duration;
+		}
 	}
 }

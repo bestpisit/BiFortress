@@ -94,7 +94,7 @@ public class Introduction {
                 Sprite sprite = new Sprite(BiFortressLogo);
                 sprite.setOrigin(632*progress/2,395*progress/2);
                 sprite.rotate((progress-1)*2);
-                sprite.setBounds(GAME_WIDTH/2-632*progress/2-27,GAME_HEIGHT/2-395*progress/2,632*progress,395*progress);
+                sprite.setBounds(GAME_WIDTH/2-632*progress/2-15,GAME_HEIGHT/2-395*progress/2,632*progress,395*progress);
                 sprite.draw(spriteBatch);
                 spriteBatch.end();
             }

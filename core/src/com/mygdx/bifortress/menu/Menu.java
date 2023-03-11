@@ -1,16 +1,36 @@
 package com.mygdx.bifortress.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
+import com.mygdx.bifortress.BiFortress;
 
 import static com.mygdx.bifortress.BiFortress.*;
 
 public class Menu {
     BitmapFont font;
+    Texture BiFortressLogo,playLogo,optionLogo,exitLogo,tutorialLogo,playLogoR,optionLogoR,exitLogoR,tutorialLogoR;
     float progress;
+    ShapeRenderer shapeRenderer;
     public Menu(){
+        BiFortressLogo = new Texture(Gdx.files.internal("ui/BiFortress/BiFortress Logo.png"));
+        playLogo = new Texture(Gdx.files.internal("ui/icons/Play_Green.png"));
+        exitLogo = new Texture(Gdx.files.internal("ui/icons/Toggl_2.png"));
+        tutorialLogo = new Texture(Gdx.files.internal("ui/icons/Tasks_LightBlue.png"));
+        optionLogo = new Texture(Gdx.files.internal("ui/icons/Gear_LightBlue.png"));
+        playLogoR = new Texture(Gdx.files.internal("ui/icons/Play_Red.png"));
+        exitLogoR = new Texture(Gdx.files.internal("ui/icons/Toggl_1.png"));
+        tutorialLogoR = new Texture(Gdx.files.internal("ui/icons/Tasks_Red.png"));
+        optionLogoR = new Texture(Gdx.files.internal("ui/icons/Gear_Red.png"));
         font = new BitmapFont(Gdx.files.internal("BerlinSans/BerlinSans.fnt"));
         progress = 0;
+        shapeRenderer = new ShapeRenderer();
     }
     public void update(){
         if(progress < 100){
@@ -22,13 +42,62 @@ public class Menu {
         if(!hasIntro)progress=0;
     }
     public void render(){
+        Vector3 mousePos = screenViewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        if(introduction == null || introduction.alpha >= 200){
+            spriteBatch.begin();
+            Sprite sprite = new Sprite(BiFortressLogo);
+            sprite.setOrigin(632,395);
+            sprite.setBounds(screenViewport.getScreenWidth()/2-632/2-15,screenViewport.getScreenHeight()/2-395/2,632,395);
+            sprite.draw(spriteBatch);
+            spriteBatch.end();
+        }
+
         spriteBatch.begin();
-        font.draw(spriteBatch,"Play",20-200*(100-progress)/100,GAME_HEIGHT/2+80);
-        font.draw(spriteBatch,"Tutorial",20-200*(100-progress)/100,GAME_HEIGHT/2-50+80);
-        font.draw(spriteBatch,"Option",20-200*(100-progress)/100,GAME_HEIGHT/2-100+80);
+        GlyphLayout layout = new GlyphLayout(font, "Play");
+        font.draw(spriteBatch,layout,screenViewport.getScreenWidth()/2- layout.width/2,screenViewport.getScreenHeight()+200*(100-progress)/100-150);
+        Sprite sprite = new Sprite(playLogo);
+        sprite.setBounds(screenViewport.getScreenWidth()/2- 50,screenViewport.getScreenHeight()+200*(100-progress)/100-150, 100, 100);
+        if(sprite.getBoundingRectangle().contains(mousePos.x, mousePos.y)){
+            sprite.setTexture(playLogoR);
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                BiFortress.changeMode(GameStatus.PLAY,200);
+            }
+        }
+        sprite.draw(spriteBatch);
+
+        font.draw(spriteBatch,"Tutorial",20-400*(100-progress)/100+200,GAME_HEIGHT/2-50+80);
+        Sprite sprite1 = new Sprite(tutorialLogo);
+        sprite1.setBounds(20-400*(100-progress)/100+200-110,GAME_HEIGHT/2-50+80-65, 100, 100);
+        if(sprite1.getBoundingRectangle().contains(mousePos.x, mousePos.y)){
+            sprite1.setTexture(tutorialLogoR);
+        }
+        sprite1.draw(spriteBatch);
+
+        font.draw(spriteBatch,"Option",screenViewport.getScreenWidth()-(20-400*(100-progress)/100)-300,GAME_HEIGHT/2-50+80);
+        Sprite sprite2 = new Sprite(optionLogo);
+        sprite2.setBounds(screenViewport.getScreenWidth()-(20-400*(100-progress)/100)-300+110,GAME_HEIGHT/2-50+80-65, 100, 100);
+        if(sprite2.getBoundingRectangle().contains(mousePos.x, mousePos.y)){
+            sprite2.setTexture(optionLogoR);
+        }
+        sprite2.draw(spriteBatch);
+
+        layout = new GlyphLayout(font, "Exit");
+        font.draw(spriteBatch,layout,screenViewport.getScreenWidth()/2- layout.width/2,200*(progress)/100-50);
+        Sprite sprite3 = new Sprite(exitLogo);
+        sprite3.setBounds(screenViewport.getScreenWidth()/2- 50,200*(progress)/100-180, 100, 100);
+        if(sprite3.getBoundingRectangle().contains(mousePos.x, mousePos.y)){
+            sprite3.setTexture(exitLogoR);
+        }
+        sprite3.draw(spriteBatch);
         spriteBatch.end();
     }
     public void dispose(){
         font.dispose();
+        BiFortressLogo.dispose();
+        playLogo.dispose();
+        optionLogo.dispose();
+        exitLogo.dispose();
+        tutorialLogo.dispose();
+        shapeRenderer.dispose();
     }
 }
