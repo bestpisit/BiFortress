@@ -79,7 +79,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		}
 	}
 	public enum GameStatus {
-		INTRO,MENU,OPTION,TUTORIAL,PLAY
+		INTRO,MENU,OPTION,TUTORIAL,PLAY,EXIT
 	}
 	public static GameStatus gameStatus;
 	public static InputMultiplexer inputMultiplexer;
@@ -116,6 +116,11 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		shapeRenderer = new ShapeRenderer();
 	}
 	public void update(){
+		if(gameStatus == GameStatus.EXIT){
+			Gdx.app.exit();
+			System.exit(0);
+			return;
+		}
 		stateTime += Gdx.graphics.getDeltaTime();
 		mechanism.update();
 		if(introduction != null){
@@ -129,10 +134,10 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 						introduction = null;
 					}
 				}
-				menu.update();
 				break;
 			default:
 		}
+		menu.update();
 		main_background.update();
 		if(changeProgress < cProgress){
 			changeProgress += 0.5f+changeProgress*0.1f;
@@ -164,13 +169,13 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		spriteBatch.setProjectionMatrix(screenViewport.getCamera().combined);
 		switch (gameStatus){
 			case MENU:
-				menu.render();
 			case PLAY:
 			case OPTION:
 				break;
 			default:
 				mechanism.render();
 		}
+		menu.render();
 		fitViewport.apply();
 		spriteBatch.setProjectionMatrix(fitViewport.getCamera().combined);
 		isScrolled = 0;

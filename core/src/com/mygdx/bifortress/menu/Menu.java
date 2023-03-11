@@ -15,7 +15,7 @@ import static com.mygdx.bifortress.BiFortress.*;
 
 public class Menu {
     BitmapFont font;
-    Texture BiFortressLogo,playLogo,optionLogo,exitLogo,tutorialLogo,playLogoR,optionLogoR,exitLogoR,tutorialLogoR;
+    Texture BiFortressLogo,playLogo,optionLogo,exitLogo,tutorialLogo,playLogoR,optionLogoR,exitLogoR,tutorialLogoR,houseLogo;
     float progress;
     ShapeRenderer shapeRenderer;
     public Menu(){
@@ -28,6 +28,7 @@ public class Menu {
         exitLogoR = new Texture(Gdx.files.internal("ui/icons/Toggl_1.png"));
         tutorialLogoR = new Texture(Gdx.files.internal("ui/icons/Tasks_Red.png"));
         optionLogoR = new Texture(Gdx.files.internal("ui/icons/Gear_Red.png"));
+        houseLogo = new Texture(Gdx.files.internal("ui/icons/House_Green.png"));
         font = new BitmapFont(Gdx.files.internal("BerlinSans/BerlinSans.fnt"));
         progress = 0;
         shapeRenderer = new ShapeRenderer();
@@ -42,6 +43,29 @@ public class Menu {
         if(!hasIntro)progress=0;
     }
     public void render(){
+        switch(gameStatus){
+            case MENU:
+                displayMain();
+                break;
+            default:
+                displayBack();
+        }
+    }
+    void displayBack(){
+        Vector3 mousePos = screenViewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        spriteBatch.begin();
+        Sprite sprite = new Sprite(houseLogo);
+        sprite.setBounds(10,screenViewport.getScreenHeight()-80-10, 80, 80);
+        if(sprite.getBoundingRectangle().contains(mousePos.x, mousePos.y)){
+            sprite.setBounds(10-10,screenViewport.getScreenHeight()-80-10-10, 100, 100);
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                BiFortress.changeMode(GameStatus.MENU,200);
+            }
+        }
+        sprite.draw(spriteBatch);
+        spriteBatch.end();
+    }
+    void displayMain(){
         Vector3 mousePos = screenViewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         if(introduction == null || introduction.alpha >= 200){
             spriteBatch.begin();
@@ -70,6 +94,9 @@ public class Menu {
         sprite1.setBounds(20-400*(100-progress)/100+200-110,GAME_HEIGHT/2-50+80-65, 100, 100);
         if(sprite1.getBoundingRectangle().contains(mousePos.x, mousePos.y)){
             sprite1.setTexture(tutorialLogoR);
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                BiFortress.changeMode(GameStatus.TUTORIAL,200);
+            }
         }
         sprite1.draw(spriteBatch);
 
@@ -78,6 +105,9 @@ public class Menu {
         sprite2.setBounds(screenViewport.getScreenWidth()-(20-400*(100-progress)/100)-300+110,GAME_HEIGHT/2-50+80-65, 100, 100);
         if(sprite2.getBoundingRectangle().contains(mousePos.x, mousePos.y)){
             sprite2.setTexture(optionLogoR);
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                BiFortress.changeMode(GameStatus.OPTION,200);
+            }
         }
         sprite2.draw(spriteBatch);
 
@@ -87,6 +117,9 @@ public class Menu {
         sprite3.setBounds(screenViewport.getScreenWidth()/2- 50,200*(progress)/100-180, 100, 100);
         if(sprite3.getBoundingRectangle().contains(mousePos.x, mousePos.y)){
             sprite3.setTexture(exitLogoR);
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                BiFortress.changeMode(GameStatus.EXIT,200);
+            }
         }
         sprite3.draw(spriteBatch);
         spriteBatch.end();

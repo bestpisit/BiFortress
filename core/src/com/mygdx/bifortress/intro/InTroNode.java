@@ -47,7 +47,7 @@ public class InTroNode implements Pool.Poolable {
     public void render(){
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.circle(iPosition.x, iPosition.y,32);
+        shapeRenderer.circle(iPosition.x, iPosition.y,32+10);
         if(this.parent!=null){
             shapeRenderer.rectLine(iPosition.x,iPosition.y,parent.iPosition.x,parent.iPosition.y,10);
         }
