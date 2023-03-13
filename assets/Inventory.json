@@ -1,0 +1,10 @@
+[
+  {
+    "type": "supplier",
+    "value": 1
+  },
+  {
+    "type": "defender",
+    "value": 2
+  }
+]

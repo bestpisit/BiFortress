@@ -118,11 +118,10 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	public void update(){
 		if(gameStatus == GameStatus.EXIT){
 			Gdx.app.exit();
-			System.exit(0);
+			//System.exit(0);
 			return;
 		}
 		stateTime += Gdx.graphics.getDeltaTime();
-		mechanism.update();
 		if(introduction != null){
 			introduction.update();
 		}
@@ -134,6 +133,9 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 						introduction = null;
 					}
 				}
+				break;
+			case PLAY:
+				mechanism.update();
 				break;
 			default:
 		}
@@ -168,12 +170,12 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		screenViewport.apply();
 		spriteBatch.setProjectionMatrix(screenViewport.getCamera().combined);
 		switch (gameStatus){
-			case MENU:
 			case PLAY:
+				mechanism.render();
+				break;
 			case OPTION:
 				break;
 			default:
-				mechanism.render();
 		}
 		menu.render();
 		fitViewport.apply();

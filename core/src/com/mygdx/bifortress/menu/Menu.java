@@ -29,7 +29,7 @@ public class Menu {
         tutorialLogoR = new Texture(Gdx.files.internal("ui/icons/Tasks_Red.png"));
         optionLogoR = new Texture(Gdx.files.internal("ui/icons/Gear_Red.png"));
         houseLogo = new Texture(Gdx.files.internal("ui/icons/House_Green.png"));
-        font = new BitmapFont(Gdx.files.internal("BerlinSans/BerlinSans.fnt"));
+        font = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
         progress = 0;
         shapeRenderer = new ShapeRenderer();
     }

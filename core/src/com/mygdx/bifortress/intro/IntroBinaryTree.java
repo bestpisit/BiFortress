@@ -27,7 +27,7 @@ public class IntroBinaryTree {
             insert(node);
             relocation();
         }
-        font = new BitmapFont(Gdx.files.internal("BerlinSans/BerlinSans.fnt"));
+        font = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
     }
     public void insert(InTroNode node){
         InTroNode start = this.root;
