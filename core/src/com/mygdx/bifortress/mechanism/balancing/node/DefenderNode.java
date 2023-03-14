@@ -37,6 +37,11 @@ public class DefenderNode extends Node{
         shoot = false;
     }
     public void updateSelf(){
+        if(pow < 0){
+            gunHead.dispose();
+            gunBase.dispose();
+            text.dispose();
+        }
         if(this.lone == false){
             if(pow-level>0){
                 if(Math.abs(headDeg-initDeg)>1){

@@ -22,6 +22,7 @@ public class Ghost extends Enemy{
         sHit = true;
         life = 2;
         MOVE_SPEED = 2f;
+        this.power = power;
     }
     public void updateSelf(){
         stateTime += Gdx.graphics.getDeltaTime()/4;
@@ -41,7 +42,9 @@ public class Ghost extends Enemy{
             sHit = true;
             if(life <= 0){
                 dead();
+                dispose();
                 Balancing.enemies.removeIndex(Balancing.enemies.indexOf(this,true));
+                return;
             }
         }
         idleAnimation.update(stateTime);
@@ -78,7 +81,6 @@ public class Ghost extends Enemy{
                 Balancing.ScreenShake(20);
                 getHit(1);
                 n.pow -= power;
-                //rotate
                 n.origin.rotate(n,n.parent!=null ? n.parent : n.left!=null ? n.left : n.right);
             }
         }

@@ -4,14 +4,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import static com.mygdx.bifortress.BiFortress.manager;
 public class ObjectAnimation {
     public Animation<TextureRegion> animate;
     Texture sheet;
     public float speed;
     public TextureRegion Frame;
     public float width,height;
+    String value;
     public ObjectAnimation(AnimationSprite idle, float speed){
-        sheet = new Texture(idle.value); //nice
+        this.value = idle.value;
+        sheet = manager.get(idle.value, Texture.class); //nice
         TextureRegion[][] tmp = TextureRegion.split(sheet,
                 sheet.getWidth() / idle.col,
                 sheet.getHeight() / idle.row);
@@ -32,6 +35,6 @@ public class ObjectAnimation {
         Frame = animate.getKeyFrame(stateTime*speed, true);
     }
     public void dispose(){
-        sheet.dispose();
+        //manager.unload(this.value);
     }
 }

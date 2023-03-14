@@ -14,7 +14,7 @@ public class Background {
     float alpha,speed;
 
     public Background(String path, float speed){
-        backgroundTexture = new Texture(Gdx.files.internal(path));
+        backgroundTexture = new Texture((path));
         tiledDrawable = new TiledDrawable(new TextureRegion(backgroundTexture));
         xPos = 0;
         yPos = 0;

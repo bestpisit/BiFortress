@@ -58,15 +58,16 @@ public class Fruits {
             Balancing.score += Math.round(point);
         }
         if(collected){
-            if(collectedAnimation.animate.isAnimationFinished(stateTime* collectedAnimation.speed)){
-                Balancing.fruits.removeIndex(Balancing.fruits.indexOf(this,true));
-            }
             spriteBatch.begin();
             Sprite sprite = new Sprite(collectedAnimation.Frame);
             sprite.setBounds(x-radius,y-radius,radius*2,radius*2);
             sprite.setOrigin(radius,radius);
             sprite.draw(spriteBatch);
             spriteBatch.end();
+            if(collectedAnimation.animate.isAnimationFinished(stateTime* collectedAnimation.speed)){
+                dispose();
+                Balancing.fruits.removeIndex(Balancing.fruits.indexOf(this,true));
+            }
         }
         else{
             spriteBatch.begin();

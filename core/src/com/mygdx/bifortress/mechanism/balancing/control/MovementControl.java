@@ -42,15 +42,15 @@ public class MovementControl {
     public void render(ShapeRenderer shapeRenderer){
         spriteBatch.begin();
         String str;
-        Sprite sprite = new Sprite(new Texture(Gdx.files.internal("ui/default.png")));
+        Sprite sprite = new Sprite(new Texture(("ui/default.png")));
         String txt = "Right Click To Change Node Control";
         switch(control){
             case ROTATE:
-                sprite = new Sprite(new Texture(Gdx.files.internal("ui/rotate.png")));
+                sprite = new Sprite(new Texture(("ui/rotate.png")));
                 txt = "Rotate Node";
                 break;
             case DELETE:
-                sprite = new Sprite(new Texture(Gdx.files.internal("ui/delete.png")));
+                sprite = new Sprite(new Texture(("ui/delete.png")));
                 txt = "Delete Node";
                 break;
         }

@@ -4,9 +4,11 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.bifortress.animation.AnimationSprite;
 import com.mygdx.bifortress.intro.Introduction;
 import com.mygdx.bifortress.mechanism.Mechanism;
 import com.mygdx.bifortress.menu.Menu;
@@ -91,8 +94,15 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	static boolean modeChange;
 	static GameStatus nextStatus;
 	ShapeRenderer shapeRenderer;
+
+	public static AssetManager manager = new AssetManager();
+	public static boolean isUpdateAsset = false,isCreate = false;
+	AnimationSprite animationSprite;
 	@Override
 	public void create() {
+		animationSprite = AnimationSprite.FROG_RUN;
+		manager.finishLoading();
+		isUpdateAsset = true;
 		spriteBatch = new SpriteBatch();
 		inputMultiplexer = new InputMultiplexer();
 		fillViewport = new FillViewport(GAME_WIDTH, GAME_HEIGHT);
@@ -197,10 +207,12 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public void resize(int width, int height) {
-		fillViewport.update(width, height, true);
-		fitViewport.update(width, height, true);
-		screenViewport.update(width, height, true);
-		gameViewport.update(width, height);
+		if(fillViewport != null){
+			fillViewport.update(width, height, true);
+			fitViewport.update(width, height, true);
+			screenViewport.update(width, height, true);
+			gameViewport.update(width, height);
+		}
 	}
 
 	@Override
@@ -209,6 +221,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		main_background.dispose();
 		mechanism.dispose();
 		menu.dispose();
+		manager.dispose();
 	}
 
 	public static void changeMode(GameStatus gameStatus,int duration){

@@ -23,8 +23,8 @@ public class RunParticle {
         sprite.draw(spriteBatch);
         spriteBatch.end();
         if(this.rad - .5f <= 1f){
+            dispose();
             Balancing.particles.removeIndex(Balancing.particles.indexOf(this,true));
-            particle.dispose();
         }
         else{
             this.rad -= .05f*this.rad;

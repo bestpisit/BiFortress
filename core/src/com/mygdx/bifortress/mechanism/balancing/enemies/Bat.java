@@ -41,7 +41,9 @@ public class Bat extends Enemy{
             sHit = true;
             if(life <= 0){
                 dead();
+                dispose();
                 Balancing.enemies.removeIndex(Balancing.enemies.indexOf(this,true));
+                return;
             }
         }
         idleAnimation.update(stateTime);

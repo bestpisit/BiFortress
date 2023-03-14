@@ -19,16 +19,16 @@ public class Menu {
     float progress;
     ShapeRenderer shapeRenderer;
     public Menu(){
-        BiFortressLogo = new Texture(Gdx.files.internal("ui/BiFortress/BiFortress Logo.png"));
-        playLogo = new Texture(Gdx.files.internal("ui/icons/Play_Green.png"));
-        exitLogo = new Texture(Gdx.files.internal("ui/icons/Toggl_2.png"));
-        tutorialLogo = new Texture(Gdx.files.internal("ui/icons/Tasks_LightBlue.png"));
-        optionLogo = new Texture(Gdx.files.internal("ui/icons/Gear_LightBlue.png"));
-        playLogoR = new Texture(Gdx.files.internal("ui/icons/Play_Red.png"));
-        exitLogoR = new Texture(Gdx.files.internal("ui/icons/Toggl_1.png"));
-        tutorialLogoR = new Texture(Gdx.files.internal("ui/icons/Tasks_Red.png"));
-        optionLogoR = new Texture(Gdx.files.internal("ui/icons/Gear_Red.png"));
-        houseLogo = new Texture(Gdx.files.internal("ui/icons/House_Green.png"));
+        BiFortressLogo = new Texture(("ui/BiFortress/BiFortress Logo.png"));
+        playLogo = new Texture(("ui/icons/Play_Green.png"));
+        exitLogo = new Texture(("ui/icons/Toggl_2.png"));
+        tutorialLogo = new Texture(("ui/icons/Tasks_LightBlue.png"));
+        optionLogo = new Texture(("ui/icons/Gear_LightBlue.png"));
+        playLogoR = new Texture(("ui/icons/Play_Red.png"));
+        exitLogoR = new Texture(("ui/icons/Toggl_1.png"));
+        tutorialLogoR = new Texture(("ui/icons/Tasks_Red.png"));
+        optionLogoR = new Texture(("ui/icons/Gear_Red.png"));
+        houseLogo = new Texture(("ui/icons/House_Green.png"));
         font = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
         progress = 0;
         shapeRenderer = new ShapeRenderer();

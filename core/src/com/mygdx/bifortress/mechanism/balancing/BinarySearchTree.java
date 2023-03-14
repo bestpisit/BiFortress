@@ -256,6 +256,9 @@ public class BinarySearchTree {
         reLocation();
     }
     public void rotate(Node n1,Node n2){
+        if(n1 == null || n2 == null){
+            return;
+        }
         Node p = n1;
         Node c = n2;
         if(n2.left == n1 || n2.right == n1){

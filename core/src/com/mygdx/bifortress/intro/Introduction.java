@@ -21,7 +21,7 @@ public class Introduction {
     IntroBinaryTree introBinaryTree;
     Sound sound;
     public Introduction(){
-        BiFortressLogo = new Texture(Gdx.files.internal("ui/BiFortress/BiFortress Logo.png"));
+        BiFortressLogo = new Texture(("ui/BiFortress/BiFortress Logo.png"));
         progress = 100;
         alpha = -100;
         shapeRenderer = new ShapeRenderer();

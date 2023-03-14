@@ -67,6 +67,7 @@ public class Node {
     public void update(ShapeRenderer shapeRenderer,Vector3 mousePos){
         updateSelf();
         if(this.pow < 0){
+            dispose();
             origin.delete(this);
         }
         if(this.pow > this.power){
@@ -232,7 +233,7 @@ public class Node {
         return (rad <= this.radius);
     }
     public void dispose(){
-
+        font.dispose();
     }
     void actionDefault(ShapeRenderer shapeRenderer, Vector3 mousePos){
         Gdx.gl.glEnable(GL20.GL_BLEND);

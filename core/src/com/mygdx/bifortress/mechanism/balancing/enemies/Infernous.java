@@ -57,7 +57,9 @@ public class Infernous extends Enemy{
             fixAnimate = false;
             if(life <= 0){
                 dead();
+                dispose();
                 Balancing.enemies.removeIndex(Balancing.enemies.indexOf(this,true));
+                return;
             }
         }
         idleAnimation.update(stateTime);
