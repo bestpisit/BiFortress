@@ -21,6 +21,7 @@ import com.mygdx.bifortress.animation.AnimationSprite;
 import com.mygdx.bifortress.intro.Introduction;
 import com.mygdx.bifortress.mechanism.Mechanism;
 import com.mygdx.bifortress.menu.Menu;
+import com.mygdx.bifortress.tutorial.Tutorial;
 
 public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	public static SpriteBatch spriteBatch;
@@ -33,6 +34,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	Background main_background;
 	Mechanism mechanism;
 	public static Introduction introduction;
+	public static Tutorial tutorial;
 	Menu menu;
 
 	@Override
@@ -113,6 +115,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		screenViewport = new ScreenViewport();
 		mechanism = new Mechanism(Mechanism.MechStatus.ENDLESS);
 		introduction = new Introduction();
+		tutorial = new Tutorial();
 		if (!inputMultiplexer.getProcessors().contains(this,true)){
 			inputMultiplexer.addProcessor(this);
 		}
@@ -147,6 +150,8 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 			case PLAY:
 				mechanism.update();
 				break;
+			case TUTORIAL:
+				tutorial.update();
 			default:
 		}
 		menu.update();
@@ -183,6 +188,8 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 			case PLAY:
 				mechanism.render();
 				break;
+			case TUTORIAL:
+				tutorial.render();
 			case OPTION:
 				break;
 			default:
