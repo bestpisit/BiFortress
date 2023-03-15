@@ -35,6 +35,6 @@ public class ObjectAnimation {
         Frame = animate.getKeyFrame(stateTime*speed, true);
     }
     public void dispose(){
-        //manager.unload(this.value);
+        //Frame.getTexture().dispose();
     }
 }

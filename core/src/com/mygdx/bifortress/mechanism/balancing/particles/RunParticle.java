@@ -1,19 +1,17 @@
 package com.mygdx.bifortress.mechanism.balancing.particles;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.utils.Pool;
 import com.mygdx.bifortress.animation.AnimationSprite;
 import com.mygdx.bifortress.animation.ObjectAnimation;
 import com.mygdx.bifortress.mechanism.balancing.Balancing;
 
 import static com.mygdx.bifortress.BiFortress.spriteBatch;
 
-public class RunParticle {
+public class RunParticle implements Pool.Poolable {
     public float x,y,rad;
     ObjectAnimation particle;
-    public RunParticle(float x, float y, float rad){
-        this.x = x;
-        this.y = y;
-        this.rad = rad;
+    public RunParticle(){
         particle = new ObjectAnimation(AnimationSprite.DUST_PARTICLE,1);
     }
     public void render(){
@@ -25,6 +23,7 @@ public class RunParticle {
         if(this.rad - .5f <= 1f){
             dispose();
             Balancing.particles.removeIndex(Balancing.particles.indexOf(this,true));
+            Balancing.particlesPool.free(this);
         }
         else{
             this.rad -= .05f*this.rad;
@@ -34,5 +33,14 @@ public class RunParticle {
     }
     public void dispose(){
         particle.dispose();
+    }
+    public void init(float x, float y, float rad){
+        this.x = x;
+        this.y = y;
+        this.rad = rad;
+    }
+    @Override
+    public void reset() {
+
     }
 }

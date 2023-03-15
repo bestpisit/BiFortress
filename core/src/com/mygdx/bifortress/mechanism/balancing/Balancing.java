@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.Pool;
 import com.mygdx.bifortress.animation.AnimationSprite;
 import com.mygdx.bifortress.mechanism.Player;
 import com.mygdx.bifortress.mechanism.balancing.cell.CanonCell;
@@ -27,6 +28,12 @@ public class Balancing {
     public static Player player;
     public static DelayedRemovalArray<Enemy> enemies;
     public static DelayedRemovalArray<RunParticle> particles;
+    public static final Pool<RunParticle> particlesPool = new Pool<RunParticle>() {
+        @Override
+        protected RunParticle newObject() {
+            return new RunParticle();
+        }
+    };
     public static DelayedRemovalArray<CanonCell> canonCells;
     public static DelayedRemovalArray<Fruits> fruits;
     ShapeRenderer shapeRenderer;

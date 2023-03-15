@@ -72,7 +72,9 @@ public class Player {
         if(Math.abs(hsp) > 0 || Math.abs(vsp) > 0){
             if(delParticle <= 0){
                 delParticle = Balancing.rand.nextInt(25)+5-(int)Math.abs(hsp)-(int)Math.abs(vsp);
-                Balancing.particles.add(new RunParticle(this.xPos+(this.width-15)/-2*(float)Math.cos(radian),this.yPos-this.height/2+10,24));
+                RunParticle runParticle = Balancing.particlesPool.obtain();
+                runParticle.init(this.xPos+(this.width-15)/-2*(float)Math.cos(radian),this.yPos-this.height/2+10,24);
+                Balancing.particles.add(runParticle);
             }
             else{
                 delParticle -= Gdx.graphics.getDeltaTime();
