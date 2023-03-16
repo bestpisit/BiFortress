@@ -13,6 +13,15 @@ public class ObjectAnimation {
     public float width,height;
     String value;
     public ObjectAnimation(AnimationSprite idle, float speed){
+        changeSprite(idle,speed);
+    }
+    public void update(float stateTime){
+        Frame = animate.getKeyFrame(stateTime*speed, true);
+    }
+    public void dispose(){
+        //Frame.getTexture().dispose();
+    }
+    public void changeSprite(AnimationSprite idle,float speed){
         this.value = idle.value;
         sheet = manager.get(idle.value, Texture.class); //nice
         TextureRegion[][] tmp = TextureRegion.split(sheet,
@@ -30,11 +39,5 @@ public class ObjectAnimation {
         animate = new Animation<TextureRegion>(0.025f, walkFrames);
         this.speed = speed;
         Frame = animate.getKeyFrame(0f, true);
-    }
-    public void update(float stateTime){
-        Frame = animate.getKeyFrame(stateTime*speed, true);
-    }
-    public void dispose(){
-        //Frame.getTexture().dispose();
     }
 }

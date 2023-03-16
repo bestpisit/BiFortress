@@ -5,8 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.mygdx.bifortress.animation.AnimationSprite;
+import com.mygdx.bifortress.animation.ObjectAnimation;
 
 import java.util.ArrayList;
 
@@ -14,29 +17,34 @@ import static com.mygdx.bifortress.BiFortress.*;
 
 public class Navigation {
     float alpha;
-    boolean opening;
+    public boolean opening,isDisplayFinish;
     BitmapFont font;
     String currentString,stringPrototype;
+    ObjectAnimation frog;
+    AnimationSprite currentAvatar;
     ArrayList<String> strQueue;
     float strTime;
     int count;
     public Navigation(){
         alpha = 0;
         opening = false;
+        isDisplayFinish = true;
         font = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
         currentString = "";
         stringPrototype = "";
         strTime = 0;
         count = 0;
         strQueue = new ArrayList<>();
-        display("You know, its hard for me to make my heart silent" +
-                " The echo of my secret could be never end" +
-                "And I dont want my heart to be so broken" +
-                " From all those words inside that left unspoken");
+        currentAvatar = AnimationSprite.FROG_IDLE;
+        frog = new ObjectAnimation(currentAvatar,0.25f);
     }
     public void update(){
-        if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)){
-            display("Hello ByBua I'm Besty! "+ ++count);
+        Vector3 mousePos = screenViewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Rectangle rect = new Rectangle(0,0,screenViewport.getScreenWidth(),200);
+        if(rect.contains(mousePos.x, mousePos.y)){
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                Tutorial.tutorialController.nextConversation();
+            }
         }
         if(opening){
             if(alpha < 100){
@@ -45,12 +53,18 @@ public class Navigation {
             else{
                 alpha = 100;
             }
-            if(strTime < 0.05f){
-                strTime += Gdx.graphics.getDeltaTime()*Math.log(stringPrototype.length()-currentString.length());
+            if(strTime < 0.015f){
+                strTime += Gdx.graphics.getDeltaTime();
             }
             else{
                 if(currentString.length() < stringPrototype.length()){
                     currentString += stringPrototype.charAt(currentString.length());
+                }
+                else{
+                    if(currentString != stringPrototype){
+                        currentString = stringPrototype;
+                    }
+                    isDisplayFinish = true;
                 }
                 strTime = 0;
             }
@@ -87,6 +101,7 @@ public class Navigation {
         }
         currentString = "";
         stringPrototype = str;
+        isDisplayFinish = false;
     }
     public void dispose(){
         font.dispose();

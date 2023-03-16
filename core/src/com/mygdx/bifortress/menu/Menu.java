@@ -15,11 +15,12 @@ import static com.mygdx.bifortress.BiFortress.*;
 
 public class Menu {
     BitmapFont font;
-    Texture BiFortressLogo,playLogo,optionLogo,exitLogo,tutorialLogo,playLogoR,optionLogoR,exitLogoR,tutorialLogoR,houseLogo;
+    Texture BiFortressLogo,BiFortressText,playLogo,optionLogo,exitLogo,tutorialLogo,playLogoR,optionLogoR,exitLogoR,tutorialLogoR,houseLogo;
     float progress;
     ShapeRenderer shapeRenderer;
     public Menu(){
         BiFortressLogo = new Texture(("ui/BiFortress/BiFortress Logo.png"));
+        BiFortressText = new Texture("ui/BiFortress/BiFortress Font.png");
         playLogo = new Texture(("ui/icons/Play_Green.png"));
         exitLogo = new Texture(("ui/icons/Toggl_2.png"));
         tutorialLogo = new Texture(("ui/icons/Tasks_LightBlue.png"));
@@ -72,6 +73,9 @@ public class Menu {
             Sprite sprite = new Sprite(BiFortressLogo);
             sprite.setOrigin(632,395);
             sprite.setBounds(screenViewport.getScreenWidth()/2-632/2-15,screenViewport.getScreenHeight()/2-395/2,632,395);
+            sprite.draw(spriteBatch);
+            sprite.setTexture(BiFortressText);
+            sprite.setBounds(screenViewport.getScreenWidth()/2-287*1.5f/2,screenViewport.getScreenHeight()/2+66*1.5f/2-315,287*1.5f,66*1.5f);
             sprite.draw(spriteBatch);
             spriteBatch.end();
         }
@@ -127,6 +131,7 @@ public class Menu {
     public void dispose(){
         font.dispose();
         BiFortressLogo.dispose();
+        BiFortressText.dispose();
         playLogo.dispose();
         optionLogo.dispose();
         exitLogo.dispose();
