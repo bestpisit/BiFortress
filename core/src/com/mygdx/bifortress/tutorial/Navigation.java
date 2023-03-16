@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -20,13 +21,14 @@ public class Navigation {
     public boolean opening,isDisplayFinish;
     BitmapFont font;
     String currentString,stringPrototype;
-    ObjectAnimation frog;
+    ObjectAnimation avatar;
     AnimationSprite currentAvatar;
     ArrayList<String> strQueue;
-    float strTime;
+    float strTime,stateTime;
     int count;
     public Navigation(){
         alpha = 0;
+        stateTime = 0;
         opening = false;
         isDisplayFinish = true;
         font = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
@@ -36,9 +38,10 @@ public class Navigation {
         count = 0;
         strQueue = new ArrayList<>();
         currentAvatar = AnimationSprite.FROG_IDLE;
-        frog = new ObjectAnimation(currentAvatar,0.25f);
+        avatar = new ObjectAnimation(currentAvatar,0.25f);
     }
     public void update(){
+        stateTime += Gdx.graphics.getDeltaTime();
         Vector3 mousePos = screenViewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         Rectangle rect = new Rectangle(0,0,screenViewport.getScreenWidth(),200);
         if(rect.contains(mousePos.x, mousePos.y)){
@@ -77,6 +80,11 @@ public class Navigation {
                 alpha = 0;
             }
         }
+        avatar.update(stateTime);
+    }
+    public void changeAvatar(AnimationSprite animationSprite,float speed){
+        currentAvatar = animationSprite;
+        avatar.changeSprite(currentAvatar,speed);
     }
     public void render(ShapeRenderer shapeRenderer){
         if(alpha > 0){
@@ -90,8 +98,11 @@ public class Navigation {
             shapeRenderer.end();
             Gdx.gl.glDisable(GL20.GL_BLEND);
             spriteBatch.begin();
-
-            font.draw(spriteBatch,currentString,200,100+ font.getLineHeight(),screenViewport.getScreenWidth()-200-25,-1,true);
+            Sprite sprite = new Sprite(avatar.Frame);
+            sprite.setAlpha(alpha/100);
+            sprite.setBounds(100- 200/2,100-160/2, 200, 200);
+            sprite.draw(spriteBatch);
+            font.draw(spriteBatch,currentString,200,140+ font.getLineHeight(),screenViewport.getScreenWidth()-200-25,-1,true);
             spriteBatch.end();
         }
     }

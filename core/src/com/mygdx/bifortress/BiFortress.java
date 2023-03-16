@@ -152,6 +152,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 				break;
 			case TUTORIAL:
 				tutorial.update();
+				break;
 			default:
 		}
 		menu.update();
@@ -190,6 +191,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 				break;
 			case TUTORIAL:
 				tutorial.render();
+				break;
 			case OPTION:
 				break;
 			default:
