@@ -18,7 +18,6 @@ public class TutorialMenu {
     public enum MenuStage{
         Introduction("Introduction"),
         BackgroundInformation("Background Information"),
-        DataStructure("DataStructure"),
         BinaryTree("BinaryTree"),
         Practice("Practice")
         ;
@@ -37,7 +36,6 @@ public class TutorialMenu {
     public void init(){
         menuStages.add(MenuStage.Introduction);
         menuStages.add(MenuStage.BackgroundInformation);
-        menuStages.add(MenuStage.DataStructure);
         menuStages.add(MenuStage.BinaryTree);
         menuStages.add(MenuStage.Practice);
     }
@@ -92,16 +90,24 @@ public class TutorialMenu {
         tutorialController.reset();
         switch (menuStage){
             case Introduction:
-                tutorialController.conversationQueue.add(menuStage.title);
+                tutorialController.conversationQueue.add("Good days student, Im Ninja Frog.\nIm here to help you to dive into this fascinating world, and discover the power of Binary Tree");
+                tutorialController.conversationQueue.add("Welcome To BiFortress game");
+                tutorialController.conversationQueue.add("Before we go let me introduce the story of the BiFortress");
+                tutorialController.conversationQueue.add("Once, there was a ancient kingdom called Celestial Imperium, ruled by the Elm Tree, which was the center of power in the kingdom");
+                tutorialController.conversationQueue.add("But one day, a destructive demon named Infernious and its minions rose up to destroy the kingdom's foundation and create their own evil empire");
+                tutorialController.conversationQueue.add("Ninja Frog, the protector of the rightful kingdom, had to fight and defend against the never-ending threat that plagued the city");
                 break;
             case BackgroundInformation:
-                tutorialController.conversationQueue.add(menuStage.title+1);
-                break;
-            case DataStructure:
-                tutorialController.conversationQueue.add(menuStage.title+2);
+                tutorialController.conversationQueue.add("The Background Information About BiFortress");
+                tutorialController.conversationQueue.add("BiFortress is ....");
                 break;
             case BinaryTree:
-                tutorialController.conversationQueue.add(menuStage.title+3);
+                tutorialController.conversationQueue.add("This is your BinaryTree Fortress");
+                tutorialController.conversationQueue.add("BinaryTree is a data structure that represent as an upside down tree,\n" +
+                        "The tree may containing the node(Circle), which represent the data inside of it.\n" +
+                        "The node may has up to 2 children nodes which is left node and right node");
+                tutorialController.conversationQueue.add("The left node must has the lesser value than its parent node");
+                tutorialController.conversationQueue.add("The right node must has the greater value than its parent node");
                 break;
             case Practice:
                 tutorialController.conversationQueue.add(menuStage.title+4);

@@ -15,7 +15,7 @@ import static com.mygdx.bifortress.BiFortress.*;
 
 public class Menu {
     BitmapFont font;
-    Texture BiFortressLogo,BiFortressText,playLogo,optionLogo,exitLogo,tutorialLogo,playLogoR,optionLogoR,exitLogoR,tutorialLogoR,houseLogo;
+    public static Texture BiFortressLogo,BiFortressText,playLogo,optionLogo,exitLogo,tutorialLogo,playLogoR,optionLogoR,exitLogoR,tutorialLogoR,houseLogo;
     float progress;
     ShapeRenderer shapeRenderer;
     public Menu(){

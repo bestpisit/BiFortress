@@ -8,11 +8,13 @@ import java.util.ArrayList;
 public class TutorialController {
     ArrayList<String> conversationQueue,prevConversation;
     String currentStr;
+    public int currentIndex;
     public TutorialController(){
         conversationQueue = new ArrayList<>();
         prevConversation = new ArrayList<>();
         init();
         currentStr = null;
+        currentIndex = 0;
         nextConversation();
     }
     public void init(){
@@ -38,16 +40,16 @@ public class TutorialController {
                     currentStr = prevConversation.remove(0);
                     Tutorial.navigation.display(currentStr);
                 }
+                currentIndex--;
             }
             else{
                 if(prevConversation.isEmpty()){
                     Tutorial.tutorialMenu.previousStage();
-//                    Tutorial.navigation.opening = false;
-//                    Tutorial.navigation.isDisplayFinish = true;
                 }
                 else{
                     currentStr = prevConversation.remove(0);
                     Tutorial.navigation.display(currentStr);
+                    currentIndex--;
                 }
             }
         }
@@ -72,10 +74,12 @@ public class TutorialController {
             }
             currentStr = str;
             Tutorial.navigation.display(currentStr);
+            currentIndex++;
         }
         else{
             if(currentStr != null){
                 prevConversation.add(0, currentStr);
+                currentIndex++;
                 currentStr = null;
                 Tutorial.navigation.opening = false;
                 Tutorial.navigation.isDisplayFinish = true;
@@ -89,6 +93,7 @@ public class TutorialController {
         conversationQueue.clear();
         prevConversation.clear();
         currentStr = null;
+        currentIndex = 0;
         Tutorial.navigation.opening = false;
         Tutorial.navigation.isDisplayFinish = true;
     }

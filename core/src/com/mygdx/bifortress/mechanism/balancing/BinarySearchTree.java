@@ -35,7 +35,7 @@ public class BinarySearchTree {
     public static boolean toggleSelect;
     public float TreeTick;
     BitmapFont text;
-    BinarySearchTree(){
+    public BinarySearchTree(){
         nodes = new DelayedRemovalArray<>();
         loneNodes = new DelayedRemovalArray<>();
         cells = new DelayedRemovalArray<>();
@@ -526,6 +526,7 @@ public class BinarySearchTree {
     }
     public void render(Vector3 mousePos,ShapeRenderer shapeRenderer){
         update();
+        shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
         for(Node node: nodes){
             node.update(shapeRenderer,mousePos);
             if(node != root && node.left == null && node.right == null && node.parent == null && !loneNodes.contains(node,true)){
