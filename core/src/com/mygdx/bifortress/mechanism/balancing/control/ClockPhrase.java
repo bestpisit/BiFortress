@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.bifortress.mechanism.balancing.Balancing;
+import com.mygdx.bifortress.mechanism.balancing.BinarySearchTree;
 import com.mygdx.bifortress.mechanism.balancing.enemies.Bat;
 import com.mygdx.bifortress.mechanism.balancing.enemies.Infernous;
 import com.mygdx.bifortress.mechanism.balancing.inventory.Inventory;
@@ -40,7 +41,7 @@ public class ClockPhrase {
         time = 0;
         maxTime = 30f;
         text = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
-        this.phrase = new PhraseEvent(Phrase.DEFAULT,5,"");
+        this.phrase = new PhraseEvent(Phrase.MANIPULATION,50,"");
         phrases = new ArrayList<>();
         invasion = false;
         atReady = false;
@@ -73,8 +74,8 @@ public class ClockPhrase {
             Random rand = new Random();
             int r = rand.nextInt(100);
             boolean isNode = rand.nextBoolean();
-            Inventory.itemNodes.add(new ItemNode((isNode)? DefenderNode.class: SupplierNode.class,r));
-            Inventory.reLocation();
+            Balancing.bst.inventory.itemNodes.add(new ItemNode((isNode)? DefenderNode.class: SupplierNode.class,r,Balancing.bst.inventory));
+            Balancing.bst.inventory.reLocation();
             Balancing.level++;
             phrases.add(new PhraseEvent(Phrase.MANIPULATION,120,"TREE-MANIPULATION"));
             phrases.add(new PhraseEvent(Phrase.INVASION,5,"INVASION "+Balancing.level));

@@ -62,7 +62,7 @@ public class Balancing {
         particles = new DelayedRemovalArray<>();
         camX = player.xPos;
         camY = player.yPos;
-        movementControl = new MovementControl();
+        movementControl = new MovementControl(bst);
         inventory = new Inventory(bst);
         canonCells = new DelayedRemovalArray<>();
         clockPhrase = new ClockPhrase();

@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.mygdx.bifortress.mechanism.balancing.cell.PowerCell;
 import com.mygdx.bifortress.mechanism.balancing.control.ClockPhrase;
+import com.mygdx.bifortress.mechanism.balancing.inventory.Inventory;
 import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
 import com.mygdx.bifortress.mechanism.balancing.node.Node;
 import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
@@ -30,17 +31,19 @@ public class BinarySearchTree {
     public DelayedRemovalArray<PowerCell> cells;
     Random rand = new Random(System.currentTimeMillis());
     public final static int xyRange = 64;
-    public static Node onNode;
+    public Node onNode;
     public float xOrigin,yOrigin;
     public static boolean toggleSelect;
     public float TreeTick;
+    public Inventory inventory;
+    public boolean allowManipulation = false;
     BitmapFont text;
     public BinarySearchTree(){
         nodes = new DelayedRemovalArray<>();
         loneNodes = new DelayedRemovalArray<>();
         cells = new DelayedRemovalArray<>();
         this.root = null;
-        insert(new SupplierNode(1,this));
+        //insert(new SupplierNode(1,this));
         //getDatabase();
         xOrigin = 0;
         yOrigin = 0;
@@ -513,7 +516,7 @@ public class BinarySearchTree {
         if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT)&&!Gdx.input.isButtonPressed(Input.Buttons.RIGHT)){
             toggleSelect = true;
         }
-        if(ClockPhrase.phrase.phrase != ClockPhrase.Phrase.MANIPULATION){
+        if(ClockPhrase.phrase.phrase != ClockPhrase.Phrase.MANIPULATION && !allowManipulation){
             if(onNode != null){
                 onNode.toggle = false;
                 onNode = null;
@@ -542,7 +545,7 @@ public class BinarySearchTree {
         for(Node node: nodes){
             node.render(shapeRenderer,mousePos);
         }
-        if(ClockPhrase.phrase.phrase == ClockPhrase.Phrase.MANIPULATION){
+        if(ClockPhrase.phrase.phrase == ClockPhrase.Phrase.MANIPULATION || allowManipulation){
             for(int i=0;i<nodes.size;i++){
                 Node node = nodes.get(i);
                 node.drawToggle(shapeRenderer,mousePos);
@@ -705,5 +708,21 @@ public class BinarySearchTree {
             }
         }
         return arr.prettyPrint(JsonWriter.OutputType.json,1);
+    }
+    public boolean contain(int value){
+        for(Node node: nodes){
+            if(node.value == value){
+                return true;
+            }
+        }
+        return false;
+    }
+    public Node find(int value){
+        for(Node node: nodes){
+            if(node.value == value){
+                return node;
+            }
+        }
+        return null;
     }
 }

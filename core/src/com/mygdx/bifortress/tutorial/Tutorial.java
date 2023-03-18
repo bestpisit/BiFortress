@@ -2,6 +2,7 @@ package com.mygdx.bifortress.tutorial;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.bifortress.tutorial.stage.TutorialBGInformation;
+import com.mygdx.bifortress.tutorial.stage.TutorialBSTPractice;
 import com.mygdx.bifortress.tutorial.stage.TutorialBinaryTree;
 import com.mygdx.bifortress.tutorial.stage.TutorialIntroduction;
 
@@ -17,6 +18,7 @@ public class Tutorial {
     public static TutorialIntroduction tutorialIntroduction;
     public static TutorialBGInformation tutorialBGInformation;
     public static TutorialBinaryTree tutorialBinaryTree;
+    public static TutorialBSTPractice tutorialBSTPractice;
     public Tutorial(){
         shapeRenderer = new ShapeRenderer();
         navigation = new Navigation();
@@ -25,6 +27,7 @@ public class Tutorial {
         tutorialIntroduction = new TutorialIntroduction();
         tutorialBGInformation = new TutorialBGInformation();
         tutorialBinaryTree = new TutorialBinaryTree();
+        tutorialBSTPractice = new TutorialBSTPractice();
     }
     public void update(){
         switch (tutorialState){
@@ -43,6 +46,9 @@ public class Tutorial {
                             tutorialBGInformation.update();
                         case BinaryTree:
                             tutorialBinaryTree.update();
+                            break;
+                        case Practice:
+                            tutorialBSTPractice.update();
                             break;
                     }
                 }
@@ -68,6 +74,9 @@ public class Tutorial {
                         case BinaryTree:
                             tutorialBinaryTree.render();
                             break;
+                        case Practice:
+                            tutorialBSTPractice.render();
+                            break;
                     }
                 }
                 break;
@@ -78,5 +87,6 @@ public class Tutorial {
         tutorialController.dispose();
         navigation.dispose();
         tutorialIntroduction.dispose();
+        tutorialBSTPractice.dispose();
     }
 }

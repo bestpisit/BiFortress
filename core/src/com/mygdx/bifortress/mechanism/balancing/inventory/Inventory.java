@@ -15,15 +15,19 @@ import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 import static com.mygdx.bifortress.BiFortress.screenViewport;
 
 public class Inventory {
-    public static DelayedRemovalArray<ItemNode> itemNodes;
-    public static float startX,startY;
-    public static BinarySearchTree origin;
+    public DelayedRemovalArray<ItemNode> itemNodes;
+    public float startX,startY;
+    public BinarySearchTree origin;
+    public boolean allowManipulation = false;
+    public int count;
     public Inventory(BinarySearchTree origin){
         this.origin = origin;
+        origin.inventory = this;
         itemNodes = new DelayedRemovalArray<>();
         //getDatabase();
         startX = (screenViewport.getCamera().viewportWidth-32);
         startY = 32;
+        count = 0;
         reLocation();
     }
     public void getDatabase(){
@@ -36,10 +40,10 @@ public class Inventory {
                 int value = record.getInt("value");
                 switch (type){
                     case "supplier":
-                        itemNodes.add(new ItemNode(SupplierNode.class,value));
+                        itemNodes.add(new ItemNode(SupplierNode.class,value,this));
                         break;
                     case "defender":
-                        itemNodes.add(new ItemNode(DefenderNode.class,value));
+                        itemNodes.add(new ItemNode(DefenderNode.class,value,this));
                         break;
                 }
             }
@@ -49,7 +53,11 @@ public class Inventory {
         }
     }
     public void update(){
-
+        allowManipulation = origin.allowManipulation;
+        if(count != itemNodes.size){
+            reLocation();
+            count = itemNodes.size;
+        }
     }
     public void render(ShapeRenderer shapeRenderer, Vector3 mousePos){
         update();
@@ -58,7 +66,7 @@ public class Inventory {
             node.render(shapeRenderer,mousePos);
         }
     }
-    public static void reLocation(){
+    public void reLocation(){
         startX = (screenViewport.getCamera().viewportWidth-32);
         startY = 32;
         for(ItemNode node: itemNodes){
@@ -70,7 +78,7 @@ public class Inventory {
         prefs.putString("Inventory",toJSON());
         prefs.flush();
     }
-    public static String toJSON(){
+    public String toJSON(){
         JsonValue arr = new JsonValue(JsonValue.ValueType.array);
         for(ItemNode node: itemNodes){
             JsonValue ind = new JsonValue(JsonValue.ValueType.object);

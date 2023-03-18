@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.bifortress.mechanism.balancing.BinarySearchTree;
@@ -19,10 +20,12 @@ public class MovementControl {
     public static int itMC;
     public static Movement[] MoveStage = {Movement.DEFAULT,Movement.DELETE,Movement.ROTATE};
     BitmapFont text;
-    public MovementControl(){
+    public BinarySearchTree origin;
+    public MovementControl(BinarySearchTree origin){
         itMC = 0;
         control = MoveStage[itMC];
         text = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
+        this.origin = origin;
     }
     public void update(){
         if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)){
@@ -33,9 +36,9 @@ public class MovementControl {
                 itMC++;
             }
             control = MoveStage[itMC];
-            if(BinarySearchTree.onNode != null){
-                BinarySearchTree.onNode.toggle = false;
-                BinarySearchTree.onNode = null;
+            if(origin.onNode != null){
+                origin.onNode.toggle = false;
+                origin.onNode = null;
             }
         }
     }
@@ -43,7 +46,7 @@ public class MovementControl {
         spriteBatch.begin();
         String str;
         Sprite sprite = new Sprite(new Texture(("ui/default.png")));
-        String txt = "Right Click To Change Node Control";
+        String txt = "Right Click For Control";
         switch(control){
             case ROTATE:
                 sprite = new Sprite(new Texture(("ui/rotate.png")));
@@ -54,8 +57,9 @@ public class MovementControl {
                 txt = "Delete Node";
                 break;
         }
-        sprite.setBounds(5,screenViewport.getScreenHeight()-5-64,64,64);
-        text.draw(spriteBatch,txt,5+64+5,screenViewport.getScreenHeight()-5-20);
+        sprite.setBounds(screenViewport.getScreenWidth()-5-64,screenViewport.getScreenHeight()-5-64,64,64);
+        GlyphLayout glyphLayout = new GlyphLayout(text,txt);
+        text.draw(spriteBatch,txt,screenViewport.getScreenWidth()-5-64- glyphLayout.width-5,screenViewport.getScreenHeight()-5-20);
         sprite.draw(spriteBatch);
         spriteBatch.end();
     }

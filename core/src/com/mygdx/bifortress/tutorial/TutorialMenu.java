@@ -19,7 +19,10 @@ public class TutorialMenu {
         Introduction("Introduction"),
         BackgroundInformation("Background Information"),
         BinaryTree("BinaryTree"),
-        Practice("Practice")
+        Practice("Practice"),
+        WhyBinaryTree("WhyBinaryTree"),
+        GameBST("Game BinarySearchTree"),
+        SummarizeBST("SummarizeBST")
         ;
         public final String title;
 
@@ -38,6 +41,9 @@ public class TutorialMenu {
         menuStages.add(MenuStage.BackgroundInformation);
         menuStages.add(MenuStage.BinaryTree);
         menuStages.add(MenuStage.Practice);
+        menuStages.add(MenuStage.WhyBinaryTree);
+        menuStages.add(MenuStage.GameBST);
+        menuStages.add(MenuStage.SummarizeBST);
     }
     public void update(){
 
@@ -90,30 +96,68 @@ public class TutorialMenu {
         tutorialController.reset();
         switch (menuStage){
             case Introduction:
-                tutorialController.conversationQueue.add("Good days student, Im Ninja Frog.\nIm here to help you to dive into this fascinating world, and discover the power of Binary Tree");
-                tutorialController.conversationQueue.add("Welcome To BiFortress game");
-                tutorialController.conversationQueue.add("Before we go let me introduce the story of the BiFortress");
-                tutorialController.conversationQueue.add("Once, there was a ancient kingdom called Celestial Imperium, ruled by the Elm Tree, which was the center of power in the kingdom");
-                tutorialController.conversationQueue.add("But one day, a destructive demon named Infernious and its minions rose up to destroy the kingdom's foundation and create their own evil empire");
-                tutorialController.conversationQueue.add("Ninja Frog, the protector of the rightful kingdom, had to fight and defend against the never-ending threat that plagued the city");
+                tutorialController.addConversation("Good days student, Im Ninja Frog.\nIm here to help you to dive into this fascinating world, and discover the power of Binary Tree");
+                tutorialController.addConversation("Welcome To BiFortress game");
+                tutorialController.addConversation("Before we go let me introduce the story of the BiFortress");
+                tutorialController.addConversation("Once, there was a ancient kingdom called Celestial Imperium, ruled by the Elm Tree, which was the center of power in the kingdom");
+                tutorialController.addConversation("But one day, a destructive demon named Infernous and its minions rose up to destroy the kingdom's foundation and create their own evil empire");
+                tutorialController.addConversation("Ninja Frog, the protector of the rightful kingdom, had to fight and defend against the never-ending threat that plagued the city");
                 break;
             case BackgroundInformation:
-                tutorialController.conversationQueue.add("The Background Information About BiFortress");
-                tutorialController.conversationQueue.add("BiFortress is ....");
+                tutorialController.addConversation("The Background Information About BiFortress");
+                tutorialController.addConversation("BiFortress is ....");
                 break;
             case BinaryTree:
-                tutorialController.conversationQueue.add("This is your BinaryTree Fortress");
-                tutorialController.conversationQueue.add("BinaryTree is a data structure that represent as an upside down tree,\n" +
+                tutorialController.addConversation("This is your BinaryTree Fortress");
+                tutorialController.addConversation("BinaryTree is a data structure that represent as an upside down tree,\n" +
                         "The tree may containing the node(Circle), which represent the data inside of it.\n" +
-                        "The node may has up to 2 children nodes which is left node and right node");
-                tutorialController.conversationQueue.add("The left node must has the lesser value than its parent node");
-                tutorialController.conversationQueue.add("The right node must has the greater value than its parent node");
+                        "each node may contains up to 2 children nodes which is left node and right node");
+                tutorialController.addConversation("The left node (1) must has the lesser value than its parent node (2)");
+                tutorialController.addConversation("The right node (3) must has the greater value than its parent node (2)");
+                tutorialController.addConversation("Each Binary Tree must has its own Root node (2) which is the node where the Binary Operated first");
+                tutorialController.addConversation("Binary Tree has Three Main Node Manipulation which is\n-Insertion\n-Deletion\n-Rotation");
+                tutorialController.addConversation("About Insertion, lets insert the value of (4)\n" +
+                        "The insertion start from seeing the root node(2)");
+                tutorialController.addConversation("if (4) is greater than (2) then go RIGHT, else go left");
+                tutorialController.addConversation("Now we are at node (3), if (4) is greater than (3) then go RIGHT, else go left");
+                tutorialController.addConversation("No more node to go then add (4) to the right of the node (3)");//<---10
+                tutorialController.addConversation("Yay! we are finishing the node insertion!");
+                tutorialController.addConversation("Next is Deletion, lets delete the node (1)");//<---12
+                tutorialController.addConversation("Node (1) is deleted Yay!");
+                tutorialController.addConversation("Next is Rotation, lets rotate the node (3) with node (2)");//<---14
+                tutorialController.addConversation("Rotated! nice and the tree seems to be more balance!");//<---15
+                tutorialController.addConversation("So lets do some practice exercise!");
                 break;
             case Practice:
-                tutorialController.conversationQueue.add(menuStage.title+4);
+                tutorialController.addConversation("Welcome To Binary Tree Practicing");
+                tutorialController.addConversation("In the right bottom, you will given a nodes which you can drag and insert it into the binary tree");
+                tutorialController.addConversation("Now its your time to add all the given node in to the tree,\n" +
+                        "Right click to change node control\n" +
+                        "Please remember the binary tree restriction:\n" +
+                        "-Left node must be lesser than the parent node\n" +
+                        "-Right node must be greater than the parent node",false);
+                Tutorial.tutorialBSTPractice.init();
+                tutorialController.addConversation("Good job you have done inserting all the node");
+                break;
+            case WhyBinaryTree:
+                tutorialController.addConversation("As you have done the binary tree practice, you would have a questions \n-Why we need a binary tree\n" +
+                        "Why performing insertion, deletion and rotation");
+                tutorialController.addConversation("Binary Tree is a powerful DataStructure that can improve the efficiency of the software\n" +
+                        "by performing a faster data searching and retrieval of the data record\n" +
+                        "that can be used for Database Indexing, Spell Checking, File System Organization and etc.");
+                tutorialController.addConversation("That sounds to be hard to be understood");
+                tutorialController.addConversation("Let me visualize the binary tree applications by introducing Binary Search Game");
+                break;
+            case GameBST:
+                tutorialController.addConversation("Welcome to the Binary Search Game, Lets start");
+                tutorialController.addConversation("I have choose one number between number 1 to 15,\n" +
+                        "Your task is to guess what is my chosen number\n" +
+                        "After your guessing, I will provide the answer whether its my chosen number or not\n" +
+                        "If the answer is wrong, I will told you the hint whether the chosen number is MORE or LESSER");
+                tutorialController.addConversation("Guess My Number!");
                 break;
         }
-        tutorialController.nextConversation();
+        tutorialController.nextConversation(false);
         currentStage = menuStage;
         Tutorial.tutorialState = Tutorial.TutorialState.TUTORIAL;
     }

@@ -46,7 +46,7 @@ public class Navigation {
         Rectangle rect = new Rectangle(0,0,screenViewport.getScreenWidth(),200);
         if(rect.contains(mousePos.x, mousePos.y)){
             if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                Tutorial.tutorialController.nextConversation();
+                Tutorial.tutorialController.nextConversation(false);
             }
         }
         if(opening){

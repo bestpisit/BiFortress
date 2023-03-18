@@ -18,11 +18,13 @@ public class ItemNode {
     public Class type;
     int value;
     float initX,initY,x,y;
+    public Inventory origin;
     private BitmapFont text;
-    public ItemNode(Class type,int value){
-        this(type,value,GAME_WIDTH,0);
+    public ItemNode(Class type,int value,Inventory origin){
+        this(type,value,GAME_WIDTH,0,origin);
     }
-    public ItemNode(Class type,int value,float initX,float initY){
+    public ItemNode(Class type,int value,float initX,float initY,Inventory origin){
+        this.origin = origin;
         this.type = type;
         this.value = value;
         this.initX = initX;
@@ -43,23 +45,23 @@ public class ItemNode {
             initY = y;
             initX = x;
         }
-        if(ClockPhrase.phrase.phrase == ClockPhrase.Phrase.MANIPULATION) {
+        if(ClockPhrase.phrase.phrase == ClockPhrase.Phrase.MANIPULATION || origin.allowManipulation) {
             if (Math.sqrt(Math.pow(mousePos.x - initX, 2) + Math.pow(mousePos.y - initY, 2)) <= 32 && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-                Inventory.itemNodes.removeIndex(Inventory.itemNodes.indexOf(this, true));
-                Inventory.reLocation();
+                origin.itemNodes.removeIndex(origin.itemNodes.indexOf(this, true));
+                origin.reLocation();
                 Node newNode;
                 if (type == SupplierNode.class) {
-                    newNode = new SupplierNode(this.value, Inventory.origin);
+                    newNode = new SupplierNode(this.value, origin.origin);
                 } else if (type == DefenderNode.class) {
-                    newNode = new DefenderNode(this.value, Inventory.origin);
+                    newNode = new DefenderNode(this.value, origin.origin);
                 } else {
-                    newNode = new Node(this.value, Inventory.origin);
+                    newNode = new Node(this.value, origin.origin);
                 }
-                Inventory.origin.nodes.add(newNode);
-                Inventory.origin.onNode = newNode;
-                Inventory.origin.onNode.toggle = true;
-                Inventory.origin.toggleSelect = false;
-                Inventory.origin.loneNodes.add(newNode);
+                origin.origin.nodes.add(newNode);
+                origin.origin.onNode = newNode;
+                origin.origin.onNode.toggle = true;
+                origin.origin.toggleSelect = false;
+                origin.origin.loneNodes.add(newNode);
                 newNode.lone = true;
             }
         }

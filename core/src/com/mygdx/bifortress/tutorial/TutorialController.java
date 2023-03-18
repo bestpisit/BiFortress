@@ -6,8 +6,16 @@ import com.badlogic.gdx.Input;
 import java.util.ArrayList;
 
 public class TutorialController {
-    ArrayList<String> conversationQueue,prevConversation;
-    String currentStr;
+    public class StringNavigation{
+        public String str;
+        public boolean allowNext;
+        public StringNavigation(String str,boolean allowNext){
+            this.str = str;
+            this.allowNext = allowNext;
+        }
+    }
+    ArrayList<StringNavigation> conversationQueue,prevConversation;
+    StringNavigation currentStr;
     public int currentIndex;
     public TutorialController(){
         conversationQueue = new ArrayList<>();
@@ -15,46 +23,48 @@ public class TutorialController {
         init();
         currentStr = null;
         currentIndex = 0;
-        nextConversation();
+        //nextConversation();
     }
     public void init(){
-        conversationQueue.add("You know, its hard for me to make my heart silent" +
-                " The echo of my secret could be never end" +
-                " And I dont want my heart to be so broken" +
-                " From all those words inside that left unspoken");
-        conversationQueue.add("Nice To Meet You");
-        conversationQueue.add("You are Inspiration");
-        conversationQueue.add("Good luck");
+//        conversationQueue.add("You know, its hard for me to make my heart silent" +
+//                " The echo of my secret could be never end" +
+//                " And I dont want my heart to be so broken" +
+//                " From all those words inside that left unspoken");
+//        conversationQueue.add("Nice To Meet You");
+//        conversationQueue.add("You are Inspiration");
+//        conversationQueue.add("Good luck");
     }
     public void update(){
         if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)){
-            if(currentStr != null){
-                if(prevConversation.isEmpty()){
-                    conversationQueue.add(0,currentStr);
-                    Tutorial.navigation.opening = false;
-                    Tutorial.navigation.isDisplayFinish = true;
-                    currentStr = null;
-                }
-                else{
-                    conversationQueue.add(0,currentStr);
-                    currentStr = prevConversation.remove(0);
-                    Tutorial.navigation.display(currentStr);
-                }
-                currentIndex--;
-            }
-            else{
-                if(prevConversation.isEmpty()){
-                    Tutorial.tutorialMenu.previousStage();
-                }
-                else{
-                    currentStr = prevConversation.remove(0);
-                    Tutorial.navigation.display(currentStr);
+            if(currentStr == null || currentStr.allowNext){
+                if(currentStr != null){
+                    if(prevConversation.isEmpty()){
+                        conversationQueue.add(0,currentStr);
+                        Tutorial.navigation.opening = false;
+                        Tutorial.navigation.isDisplayFinish = true;
+                        currentStr = null;
+                    }
+                    else{
+                        conversationQueue.add(0,currentStr);
+                        currentStr = prevConversation.remove(0);
+                        Tutorial.navigation.display(currentStr.str);
+                    }
                     currentIndex--;
+                }
+                else{
+                    if(prevConversation.isEmpty()){
+                        Tutorial.tutorialMenu.previousStage();
+                    }
+                    else{
+                        currentStr = prevConversation.remove(0);
+                        Tutorial.navigation.display(currentStr.str);
+                        currentIndex--;
+                    }
                 }
             }
         }
         else if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)){
-            nextConversation();
+            nextConversation(false);
         }
         else if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
             goMenuStages();
@@ -66,26 +76,28 @@ public class TutorialController {
     public void dispose(){
 
     }
-    public void nextConversation(){
-        if(conversationQueue.size() > 0){
-            String str = conversationQueue.remove(0);
-            if (currentStr != null) {
-                prevConversation.add(0, currentStr);
-            }
-            currentStr = str;
-            Tutorial.navigation.display(currentStr);
-            currentIndex++;
-        }
-        else{
-            if(currentStr != null){
-                prevConversation.add(0, currentStr);
+    public void nextConversation(boolean force){
+        if(currentStr == null || currentStr.allowNext || force){
+            if(conversationQueue.size() > 0){
+                StringNavigation str = conversationQueue.remove(0);
+                if (currentStr != null) {
+                    prevConversation.add(0, currentStr);
+                }
+                currentStr = str;
+                Tutorial.navigation.display(currentStr.str);
                 currentIndex++;
-                currentStr = null;
-                Tutorial.navigation.opening = false;
-                Tutorial.navigation.isDisplayFinish = true;
             }
             else{
-                Tutorial.tutorialMenu.nextStage();
+                if(currentStr != null){
+                    prevConversation.add(0, currentStr);
+                    currentIndex++;
+                    currentStr = null;
+                    Tutorial.navigation.opening = false;
+                    Tutorial.navigation.isDisplayFinish = true;
+                }
+                else{
+                    Tutorial.tutorialMenu.nextStage();
+                }
             }
         }
     }
@@ -100,5 +112,11 @@ public class TutorialController {
     public void goMenuStages(){
         Tutorial.tutorialState = Tutorial.TutorialState.MENU;
         TutorialMenu.currentStage = null;
+    }
+    public void addConversation(String str,boolean bool){
+        conversationQueue.add(new StringNavigation(str,bool));
+    }
+    public void addConversation(String str){
+        conversationQueue.add(new StringNavigation(str,true));
     }
 }

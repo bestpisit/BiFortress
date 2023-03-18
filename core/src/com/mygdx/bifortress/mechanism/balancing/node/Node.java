@@ -26,7 +26,8 @@ public class Node {
     public float power,pow,initPow,level;
     public static final Color color = Color.BLACK;
     public int balanceFactor;
-    public boolean wrongOrder;
+    public boolean wrongOrder,hideUI;
+    public Color mainNodeColor = Color.BLACK;
     public Node(int value,BinarySearchTree origin){
         this(value,0,0,origin);
     }
@@ -60,13 +61,14 @@ public class Node {
         lone = false;
         balanceFactor = 0;
         wrongOrder = false;
+        hideUI = false;
     }
     public void updateSelf(){
 
     }
     public void update(ShapeRenderer shapeRenderer,Vector3 mousePos){
         updateSelf();
-        if(this.pow < 0){
+        if(this.pow < 0 && this.getClass() != Node.class){
             dispose();
             origin.delete(this);
         }
@@ -126,9 +128,11 @@ public class Node {
                     tToggle = false;
                     origin.nodes.removeIndex(origin.nodes.indexOf(this,true));
                     origin.loneNodes.removeIndex(origin.loneNodes.indexOf(this,true));
-                    ItemNode itemNode = new ItemNode(this.getClass(),value);
-                    Inventory.itemNodes.add(itemNode);
-                    Inventory.reLocation();
+                    if(origin.inventory != null){
+                        ItemNode itemNode = new ItemNode(this.getClass(),value,origin.inventory);
+                        origin.inventory.itemNodes.add(itemNode);
+                        origin.inventory.reLocation();
+                    }
                 }
             }
             else{
@@ -211,9 +215,9 @@ public class Node {
     }
     public void renderUI(ShapeRenderer shapeRenderer, Vector3 mousePos){
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.setColor(mainNodeColor);
         shapeRenderer.circle(this.initX, this.initY, initRadius);
-        if((onMouse || toggle)&&(BinarySearchTree.onNode == null||BinarySearchTree.onNode == this)){
+        if((onMouse || toggle)&&(origin.onNode == null||origin.onNode == this)){
             //shapeRenderer.setColor(Color.RED);
         }
         shapeRenderer.end();
@@ -223,9 +227,11 @@ public class Node {
         spriteBatch.begin();
         font.setColor(Color.WHITE);
         font.draw(spriteBatch,String.valueOf(this.value),this.initX,this.initY);
-        font.draw(spriteBatch, ((this.pow-(int) this.pow==0)?(int)this.pow:this.pow) +"/"+ (int) this.power,this.initX,this.initY+25);
-        font.setColor(Color.GOLD);
-        font.draw(spriteBatch,String.valueOf(-1*Math.abs(balanceFactor)),this.initX,this.initY+50);
+        if(!hideUI){
+            font.draw(spriteBatch, ((this.pow-(int) this.pow==0)?(int)this.pow:this.pow) +"/"+ (int) this.power,this.initX,this.initY+25);
+            font.setColor(Color.GOLD);
+            font.draw(spriteBatch,String.valueOf(-1*Math.abs(balanceFactor)),this.initX,this.initY+50);
+        }
         spriteBatch.end();
     }
     boolean atMouse(Vector3 mousePos){
