@@ -20,7 +20,7 @@ public class Navigation {
     float alpha;
     public boolean opening,isDisplayFinish;
     BitmapFont font;
-    String currentString,stringPrototype;
+    public String currentString,stringPrototype;
     ObjectAnimation avatar;
     AnimationSprite currentAvatar;
     ArrayList<String> strQueue;

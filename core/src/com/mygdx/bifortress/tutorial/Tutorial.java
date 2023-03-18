@@ -1,10 +1,7 @@
 package com.mygdx.bifortress.tutorial;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mygdx.bifortress.tutorial.stage.TutorialBGInformation;
-import com.mygdx.bifortress.tutorial.stage.TutorialBSTPractice;
-import com.mygdx.bifortress.tutorial.stage.TutorialBinaryTree;
-import com.mygdx.bifortress.tutorial.stage.TutorialIntroduction;
+import com.mygdx.bifortress.tutorial.stage.*;
 
 public class Tutorial {
     public enum TutorialState{
@@ -19,6 +16,8 @@ public class Tutorial {
     public static TutorialBGInformation tutorialBGInformation;
     public static TutorialBinaryTree tutorialBinaryTree;
     public static TutorialBSTPractice tutorialBSTPractice;
+    public static TutorialWhyBST tutorialWhyBST;
+    public static TutorialBSTGame tutorialBSTGame;
     public Tutorial(){
         shapeRenderer = new ShapeRenderer();
         navigation = new Navigation();
@@ -28,6 +27,8 @@ public class Tutorial {
         tutorialBGInformation = new TutorialBGInformation();
         tutorialBinaryTree = new TutorialBinaryTree();
         tutorialBSTPractice = new TutorialBSTPractice();
+        tutorialWhyBST = new TutorialWhyBST();
+        tutorialBSTGame = new TutorialBSTGame();
     }
     public void update(){
         switch (tutorialState){
@@ -49,6 +50,12 @@ public class Tutorial {
                             break;
                         case Practice:
                             tutorialBSTPractice.update();
+                            break;
+                        case WhyBinaryTree:
+                            tutorialWhyBST.update();
+                            break;
+                        case GameBST:
+                            tutorialBSTGame.update();
                             break;
                     }
                 }
@@ -76,6 +83,12 @@ public class Tutorial {
                             break;
                         case Practice:
                             tutorialBSTPractice.render();
+                            break;
+                        case WhyBinaryTree:
+                            tutorialWhyBST.render();
+                            break;
+                        case GameBST:
+                            tutorialBSTGame.render(shapeRenderer);
                             break;
                     }
                 }

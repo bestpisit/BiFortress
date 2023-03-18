@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import static com.mygdx.bifortress.BiFortress.*;
 
 public class TutorialMenu {
-    BitmapFont font;
+    public static BitmapFont font;
     public enum MenuStage{
         Introduction("Introduction"),
         BackgroundInformation("Background Information"),
@@ -154,7 +154,11 @@ public class TutorialMenu {
                         "Your task is to guess what is my chosen number\n" +
                         "After your guessing, I will provide the answer whether its my chosen number or not\n" +
                         "If the answer is wrong, I will told you the hint whether the chosen number is MORE or LESSER");
-                tutorialController.addConversation("Guess My Number!");
+                tutorialController.addConversation("Guess My Number!",false);
+                tutorialController.addConversation("That is the end of GAME");
+                break;
+            case SummarizeBST:
+                tutorialController.addConversation("As you had play the Binary search game before");
                 break;
         }
         tutorialController.nextConversation(false);

@@ -1,8 +1,6 @@
 package com.mygdx.bifortress.tutorial.stage;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,7 +9,6 @@ import com.mygdx.bifortress.mechanism.balancing.control.MovementControl;
 import com.mygdx.bifortress.mechanism.balancing.inventory.Inventory;
 import com.mygdx.bifortress.mechanism.balancing.inventory.ItemNode;
 import com.mygdx.bifortress.mechanism.balancing.node.Node;
-import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 import com.mygdx.bifortress.tutorial.Tutorial;
 
 import static com.mygdx.bifortress.BiFortress.*;
