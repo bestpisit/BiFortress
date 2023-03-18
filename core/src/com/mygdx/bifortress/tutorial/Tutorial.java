@@ -68,7 +68,7 @@ public class Tutorial {
                 tutorialMenu.render(shapeRenderer);
                 break;
             case TUTORIAL:
-                tutorialController.render();
+                tutorialController.render(shapeRenderer);
                 navigation.render(shapeRenderer);
                 if(TutorialMenu.currentStage!=null) {
                     switch (TutorialMenu.currentStage) {

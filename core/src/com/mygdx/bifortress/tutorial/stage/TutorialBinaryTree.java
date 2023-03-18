@@ -31,7 +31,15 @@ public class TutorialBinaryTree {
             node.hideUI = true;
         }
         if(indexChanges){
-            if(index==2){
+            if(index==1){
+                if(binarySearchTree.contain(1)){
+                    binarySearchTree.delete(binarySearchTree.find(1));
+                }
+                if(binarySearchTree.contain(3)){
+                    binarySearchTree.delete(binarySearchTree.find(3));
+                }
+            }
+            else if(index==2){
                 binarySearchTree.root.mainNodeColor = Color.BLACK;
                 if(binarySearchTree.contain(1)){
                     binarySearchTree.delete(binarySearchTree.find(1));

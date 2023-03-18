@@ -20,9 +20,9 @@ public class TutorialMenu {
         BackgroundInformation("Background Information"),
         BinaryTree("BinaryTree"),
         Practice("Practice"),
-        WhyBinaryTree("WhyBinaryTree"),
-        GameBST("Game BinarySearchTree"),
-        SummarizeBST("SummarizeBST")
+        WhyBinaryTree("Why\nBinaryTree"),
+        GameBST("Game\nBinarySearchTree"),
+        SummarizeBST("Summarize\nBST")
         ;
         public final String title;
 
@@ -152,13 +152,26 @@ public class TutorialMenu {
                 tutorialController.addConversation("Welcome to the Binary Search Game, Lets start");
                 tutorialController.addConversation("I have choose one number between number 1 to 15,\n" +
                         "Your task is to guess what is my chosen number\n" +
-                        "After your guessing, I will provide the answer whether its my chosen number or not\n" +
+                        "After your guessing, I will provide the answer whether its the answer or not\n" +
                         "If the answer is wrong, I will told you the hint whether the chosen number is MORE or LESSER");
-                tutorialController.addConversation("Guess My Number!",false);
-                tutorialController.addConversation("That is the end of GAME");
+                tutorialController.addConversation("Now Guess My Number!",false);
+                tutorialController.addConversation("Theres a method that can help you getting at most 3 guessing!");
+                tutorialController.addConversation("Let me change the structure a bit,\n" +
+                        "Wow it is a Binary Tree\n" +
+                        "Or we can call it a Binary Search Tree");
+                tutorialController.addConversation("Now lets try guessing the number from the root node,\n" +
+                        "then follow the path down to the tree",false);//<--- 6
+                tutorialController.addConversation("Now you will know that Binary Search Tree can improve the efficiency of searching for specific data");
+                tutorialController.addConversation("But the tree have to be !Balance! inorder to effectively searching for data");
                 break;
             case SummarizeBST:
-                tutorialController.addConversation("As you had play the Binary search game before");
+                tutorialController.addConversation("How to make the tree balance");
+                tutorialController.addConversation("We use Algorithms");
+                tutorialController.addConversation("What is Algorithms");
+                tutorialController.addConversation("Algorithms is a procedure for solving problem or performing a computation");
+                tutorialController.addConversation("For Balancing the tree you can use these following algorithms\n" +
+                        "-DSW Algorithms\n" +
+                        "-AVL Binary Tree Algorithms");
                 break;
         }
         tutorialController.nextConversation(false);
