@@ -17,6 +17,8 @@ import com.mygdx.bifortress.mechanism.balancing.control.MovementControl;
 import com.mygdx.bifortress.mechanism.balancing.enemies.*;
 import com.mygdx.bifortress.mechanism.balancing.inventory.Inventory;
 import com.mygdx.bifortress.mechanism.balancing.items.Fruits;
+import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
+import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 import com.mygdx.bifortress.mechanism.balancing.particles.RunParticle;
 
 import java.util.ArrayList;
@@ -55,6 +57,9 @@ public class Balancing {
         gameZoom = 1f;
         shapeRenderer = new ShapeRenderer();
         bst = new BinarySearchTree();
+        bst.insert(new SupplierNode(1,bst));
+        bst.insert(new DefenderNode(2,bst));
+        bst.reLocation();
         stage = new Stage(gameViewport, spriteBatch);
         if (!inputMultiplexer.getProcessors().contains(stage,true)){
             inputMultiplexer.addProcessor(stage);
