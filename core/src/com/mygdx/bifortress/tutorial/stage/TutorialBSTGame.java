@@ -12,7 +12,6 @@ import com.mygdx.bifortress.tutorial.Tutorial;
 import com.mygdx.bifortress.tutorial.TutorialMenu;
 import com.mygdx.bifortress.tutorial.stage.bstgame.BSTNode;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import static com.mygdx.bifortress.BiFortress.*;

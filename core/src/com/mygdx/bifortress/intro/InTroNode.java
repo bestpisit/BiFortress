@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 
+import static com.mygdx.bifortress.BiFortress.*;
+
 public class InTroNode implements Pool.Poolable {
     public boolean alive;
     public int value,depth;
@@ -46,6 +48,7 @@ public class InTroNode implements Pool.Poolable {
     }
     public void render(){
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setProjectionMatrix(shapeRenderer.getProjectionMatrix());
         shapeRenderer.setColor(Color.BLACK);
         shapeRenderer.circle(iPosition.x, iPosition.y,32+10);
         if(this.parent!=null){
