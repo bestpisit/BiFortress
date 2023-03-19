@@ -145,7 +145,7 @@ public class Balancing {
         for(Enemy enemy : enemies){
             enemy.render();
         }
-        player.render(mousePos,shapeRenderer);
+        player.render();
         //UI
         spriteBatch.setProjectionMatrix(screenViewport.getCamera().combined);
         shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());

@@ -18,6 +18,7 @@ public class Tutorial {
     public static TutorialBSTPractice tutorialBSTPractice;
     public static TutorialWhyBST tutorialWhyBST;
     public static TutorialBSTGame tutorialBSTGame;
+    public static TutorialPlayer tutorialPlayer;
     public Tutorial(){
         shapeRenderer = new ShapeRenderer();
         navigation = new Navigation();
@@ -29,6 +30,7 @@ public class Tutorial {
         tutorialBSTPractice = new TutorialBSTPractice();
         tutorialWhyBST = new TutorialWhyBST();
         tutorialBSTGame = new TutorialBSTGame();
+        tutorialPlayer = new TutorialPlayer();
     }
     public void update(){
         switch (tutorialState){
@@ -90,6 +92,8 @@ public class Tutorial {
                         case GameBST:
                             tutorialBSTGame.render(shapeRenderer);
                             break;
+                        case PlayerControl:
+                            tutorialPlayer.render();
                     }
                 }
                 break;
@@ -101,5 +105,6 @@ public class Tutorial {
         navigation.dispose();
         tutorialIntroduction.dispose();
         tutorialBSTPractice.dispose();
+        tutorialPlayer.dispose();
     }
 }

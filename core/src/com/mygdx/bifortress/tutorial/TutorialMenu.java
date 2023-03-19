@@ -22,7 +22,8 @@ public class TutorialMenu {
         Practice("Practice"),
         WhyBinaryTree("Why\nBinaryTree"),
         GameBST("Game\nBinarySearchTree"),
-        SummarizeBST("Summarize\nBST")
+        SummarizeBST("Summarize\nBST"),
+        PlayerControl("Player\nControl"),
         ;
         public final String title;
 
@@ -44,6 +45,7 @@ public class TutorialMenu {
         menuStages.add(MenuStage.WhyBinaryTree);
         menuStages.add(MenuStage.GameBST);
         menuStages.add(MenuStage.SummarizeBST);
+        menuStages.add(MenuStage.PlayerControl);
     }
     public void update(){
 
@@ -105,7 +107,9 @@ public class TutorialMenu {
                 break;
             case BackgroundInformation:
                 tutorialController.addConversation("The Background Information About BiFortress");
-                tutorialController.addConversation("BiFortress is ....");
+                tutorialController.addConversation("The developer team had already learned the subject of Data Structure and algorithms and realized that they were a complex and time-consuming knowledge to master.");
+                tutorialController.addConversation("Moreover, there were very few learning resources available to students, which inspired the team to realize the importance of computer data structure management and led to the development of this project.");
+                tutorialController.addConversation("The project, later on, evolved into Bifortress which focuses on teaching players the basic knowledge of binary sorting algorithms in managing binary tree structures");
                 break;
             case BinaryTree:
                 tutorialController.addConversation("This is your BinaryTree Fortress");
@@ -172,6 +176,13 @@ public class TutorialMenu {
                 tutorialController.addConversation("For Balancing the tree you can use these following algorithms\n" +
                         "-DSW Algorithms\n" +
                         "-AVL Binary Tree Algorithms");
+                break;
+            case PlayerControl:
+                Tutorial.tutorialPlayer.player.xPos = screenViewport.getScreenWidth()/2;
+                Tutorial.tutorialPlayer.player.yPos = screenViewport.getScreenHeight()/2;
+                tutorialController.addConversation("Now this is your avatar The Ninja Frog");
+                tutorialController.addConversation("Inorder To move your avatar, you can use the WASD key on your keyboard, and SHIFT to run");
+                tutorialController.addConversation("Now you are ready to be the BiFortress defender so Lets go out and PLAY The game");
                 break;
         }
         tutorialController.nextConversation(false);

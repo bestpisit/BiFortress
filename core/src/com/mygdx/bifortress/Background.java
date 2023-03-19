@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import static com.mygdx.bifortress.BiFortress.*;
 
 public class Background {
-    private TiledDrawable tiledDrawable;
-    Texture backgroundTexture;
+    public TiledDrawable tiledDrawable;
+    public Texture backgroundTexture;
     private float xPos,yPos;
     float alpha,speed;
 

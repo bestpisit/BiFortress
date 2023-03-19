@@ -21,6 +21,7 @@ import com.mygdx.bifortress.animation.AnimationSprite;
 import com.mygdx.bifortress.intro.Introduction;
 import com.mygdx.bifortress.mechanism.Mechanism;
 import com.mygdx.bifortress.menu.Menu;
+import com.mygdx.bifortress.option.Option;
 import com.mygdx.bifortress.tutorial.Tutorial;
 
 public class BiFortress extends ApplicationAdapter implements InputProcessor {
@@ -31,11 +32,12 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	public static FitViewport fitViewport;
 	public static ScreenViewport screenViewport;
 	public static ExtendViewport gameViewport;
-	Background main_background;
+	public static Background main_background;
 	Mechanism mechanism;
 	public static Introduction introduction;
 	public static Tutorial tutorial;
 	Menu menu;
+	Option option;
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -127,6 +129,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		changeProgress = 0;
 		nextStatus = GameStatus.MENU;
 		shapeRenderer = new ShapeRenderer();
+		option = new Option();
 	}
 	public void update(){
 		if(gameStatus == GameStatus.EXIT){
@@ -153,6 +156,8 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 			case TUTORIAL:
 				tutorial.update();
 				break;
+			case OPTION:
+				option.update();
 			default:
 		}
 		menu.update();
@@ -193,6 +198,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 				tutorial.render();
 				break;
 			case OPTION:
+				option.render();
 				break;
 			default:
 		}
@@ -231,6 +237,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		mechanism.dispose();
 		menu.dispose();
 		manager.dispose();
+		option.dispose();
 	}
 
 	public static void changeMode(GameStatus gameStatus,int duration){

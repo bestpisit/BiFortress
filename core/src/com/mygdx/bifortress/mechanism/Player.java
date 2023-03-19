@@ -83,7 +83,7 @@ public class Player {
         xPos += hsp;
         yPos += vsp;
     }
-    public void render(Vector3 mousePos, ShapeRenderer shapeRenderer){
+    public void render(){
         if(hsp > 0){
             xScale = false;
         }
