@@ -16,10 +16,12 @@ import com.mygdx.bifortress.mechanism.balancing.inventory.Inventory;
 import com.mygdx.bifortress.mechanism.balancing.inventory.ItemNode;
 import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
 import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
+import com.mygdx.bifortress.tutorial.TutorialMenu;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.mygdx.bifortress.BiFortress.screenViewport;
 import static com.mygdx.bifortress.BiFortress.spriteBatch;
 
 public class ClockPhrase {
@@ -47,14 +49,24 @@ public class ClockPhrase {
         atReady = false;
     }
     public void update(){
-        if(time < maxTime){
-            time += Gdx.graphics.getDeltaTime();
+        if(!Balancing.gameOver){
+            if(Balancing.bst.root == null){
+                Balancing.gameOver = true;
+            }
+            if(time < maxTime){
+                time += Gdx.graphics.getDeltaTime();
+            }
+            else{
+                getNewPhrase();
+            }
+            if(invasion){
+                updateInvasion();
+            }
         }
         else{
-            getNewPhrase();
-        }
-        if(invasion){
-            updateInvasion();
+//            if(Balancing.bst.root != null){
+//                Balancing.gameOver = false;
+//            }
         }
     }
     public static void createInvasion(){
@@ -161,6 +173,17 @@ public class ClockPhrase {
             text.draw(spriteBatch, glyphLayout, xPos - glyphLayout.width / 2, yPos + glyphLayout.height / 2);
             glyphLayout.setText(text, "ENEMIES LEFT");
             text.draw(spriteBatch, glyphLayout, xPos + 32 + 15, yPos + glyphLayout.height / 2);
+            spriteBatch.end();
+        }
+        if(Balancing.gameOver){
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.BLACK);
+            shapeRenderer.circle(screenViewport.getScreenWidth()/2,screenViewport.getScreenHeight()/2,100);
+            shapeRenderer.end();
+            spriteBatch.begin();
+            GlyphLayout glyphLayout = new GlyphLayout(TutorialMenu.font,"PRESS ENTER TO RESTART");
+            TutorialMenu.font.draw(spriteBatch,glyphLayout,screenViewport.getScreenWidth()/2-glyphLayout.width/2,screenViewport.getScreenHeight()/2-100);
+            TutorialMenu.font.draw(spriteBatch,"GAME\nOVER",screenViewport.getScreenWidth()/2-100,screenViewport.getScreenHeight()/2+35,200,1,true);
             spriteBatch.end();
         }
     }

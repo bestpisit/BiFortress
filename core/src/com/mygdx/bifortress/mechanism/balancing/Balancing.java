@@ -18,6 +18,7 @@ import com.mygdx.bifortress.mechanism.balancing.enemies.*;
 import com.mygdx.bifortress.mechanism.balancing.inventory.Inventory;
 import com.mygdx.bifortress.mechanism.balancing.items.Fruits;
 import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
+import com.mygdx.bifortress.mechanism.balancing.node.Node;
 import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 import com.mygdx.bifortress.mechanism.balancing.particles.RunParticle;
 
@@ -83,8 +84,8 @@ public class Balancing {
         text = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
     }
     public void update(){
+        clockPhrase.update();
         if(!gameOver){
-            clockPhrase.update();
             movementControl.update();
             player.update();
             if(gameZoom + 0.05*isScrolled > 0.1 && gameZoom + 0.05*isScrolled < 1.5){
@@ -103,6 +104,37 @@ public class Balancing {
                 enemies.add(new Chameleon(500,300,1));
                 enemies.add(new Bunny(500,300,1));
             }
+            if(Gdx.input.isKeyJustPressed(Input.Keys.Z)){
+                bst.nodes.clear();
+                bst.loneNodes.clear();
+                bst.root = null;
+                bst.insert(new SupplierNode(4,bst));
+                bst.insert(new SupplierNode(2,bst));
+                bst.insert(new SupplierNode(6,bst));
+                bst.insert(new DefenderNode(1,bst));
+                bst.insert(new DefenderNode(3,bst));
+                bst.insert(new DefenderNode(5,bst));
+                bst.insert(new DefenderNode(7,bst));
+                bst.reLocation();
+            }
+            else if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
+                bst.nodes.clear();
+                bst.loneNodes.clear();
+                bst.root = null;
+                bst.insert(new DefenderNode(5,bst));
+                bst.insert(new DefenderNode(4,bst));
+                bst.insert(new DefenderNode(7,bst));
+                bst.insert(new DefenderNode(6,bst));
+                bst.insert(new SupplierNode(1,bst));
+                bst.insert(new SupplierNode(2,bst));
+                bst.insert(new SupplierNode(3,bst));
+                bst.reLocation();
+            }
+            else if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
+                for(Node node: bst.nodes){
+                    node.pow = node.power;
+                }
+            }
             if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
                 //enemies.add(new Infernous(500,300));
                 fruits.add(new Fruits(2,100,100));
@@ -118,6 +150,22 @@ public class Balancing {
             else{
                 camX = player.xPos;
                 camY = player.yPos;
+            }
+        }
+        else{
+            if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+                level = 1;
+                score = 0;
+                enemies.clear();
+                particles.clear();
+                canonCells.clear();
+                fruits.clear();
+                gameOver = false;
+                bst.nodes.clear();
+                bst.loneNodes.clear();
+                bst.insert(new SupplierNode(1,bst));
+                bst.insert(new DefenderNode(2,bst));
+                bst.reLocation();
             }
         }
     }
