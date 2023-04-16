@@ -27,8 +27,8 @@ public class Background {
         spriteBatch.end();
     }
     public void update(){
-        if (xPos < 0){
-            xPos += 0.25f*speed;
+        if (yPos < 0){
+            //xPos += 0.25f*speed;
             yPos += 0.25f*speed;
         }
         else{

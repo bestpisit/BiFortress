@@ -1,6 +1,7 @@
 package com.mygdx.bifortress.mechanism.balancing.enemies;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.bifortress.mechanism.balancing.Balancing;
 import com.mygdx.bifortress.mechanism.balancing.BinarySearchTree;
 import com.mygdx.bifortress.mechanism.balancing.items.Fruits;
@@ -93,15 +94,18 @@ public class Enemy{
 
     public void spawn(){
         BinarySearchTree p = Balancing.bst;
-        yPos = random(p.yOrigin-Gdx.graphics.getHeight(),p.yOrigin);
-        if(yPos>p.yOrigin-3*Gdx.graphics.getHeight()/5){
-            if(random(1,100)%2==0){
-                xPos = random(p.xOrigin-3*Gdx.graphics.getWidth()/4,p.xOrigin-3*Gdx.graphics.getWidth()/5);
-            }else{
-                xPos = random(p.xOrigin+3*Gdx.graphics.getWidth()/5,p.xOrigin+3*Gdx.graphics.getWidth()/4);
-            }
-        }else{
-            xPos = random(p.xOrigin-3*Gdx.graphics.getWidth()/4,p.xOrigin+3*Gdx.graphics.getWidth()/4);
-        }
+//        yPos = random(p.yOrigin-Gdx.graphics.getHeight(),p.yOrigin);
+//        if(yPos>p.yOrigin-3*Gdx.graphics.getHeight()/5){
+//            if(random(1,100)%2==0){
+//                xPos = random(p.xOrigin-3*Gdx.graphics.getWidth()/4,p.xOrigin-3*Gdx.graphics.getWidth()/5);
+//            }else{
+//                xPos = random(p.xOrigin+3*Gdx.graphics.getWidth()/5,p.xOrigin+3*Gdx.graphics.getWidth()/4);
+//            }
+//        }else{
+//            xPos = random(p.xOrigin-3*Gdx.graphics.getWidth()/4,p.xOrigin+3*Gdx.graphics.getWidth()/4);
+//        }
+        yPos = -1800 - random(500);
+        Rectangle bound = Balancing.walls.get(0).getBound();
+        xPos = random(1000-200)+100;
     }
 }

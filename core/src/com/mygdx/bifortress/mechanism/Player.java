@@ -12,8 +12,11 @@ import com.mygdx.bifortress.animation.AnimationSprite;
 import com.mygdx.bifortress.animation.ObjectAnimation;
 import com.mygdx.bifortress.mechanism.balancing.Balancing;
 import com.mygdx.bifortress.mechanism.balancing.particles.RunParticle;
+import com.mygdx.bifortress.mechanism.balancing.wall.Wall;
 
 import static com.mygdx.bifortress.BiFortress.*;
+import static com.mygdx.bifortress.mechanism.balancing.Balancing.shapeRenderer;
+import static com.mygdx.bifortress.mechanism.balancing.Balancing.walls;
 
 public class Player {
     ObjectAnimation playerRun,playerIdle;
@@ -69,6 +72,36 @@ public class Player {
         double radian = (Math.atan2(vMove,move));
         hsp = Math.abs(move) * MOVE_SPEED * (float)Math.cos(radian);
         vsp = Math.abs(vMove) * MOVE_SPEED * (float)Math.sin(radian);
+
+        for(Wall wall : walls){
+            //hsp
+            if(wall.getBound().contains(this.xPos+width/2+hsp,this.yPos+height/2)||
+                    wall.getBound().contains(this.xPos-width/2+hsp,this.yPos+height/2)||
+                    wall.getBound().contains(this.xPos+width/2+hsp,this.yPos-height/2)||
+                    wall.getBound().contains(this.xPos-width/2+hsp,this.yPos-height/2)){
+                while(!(wall.getBound().contains(this.xPos+width/2+Math.signum(hsp),this.yPos+height/2)||
+                        wall.getBound().contains(this.xPos-width/2+Math.signum(hsp),this.yPos+height/2)||
+                        wall.getBound().contains(this.xPos+width/2+Math.signum(hsp),this.yPos-height/2)||
+                        wall.getBound().contains(this.xPos-width/2+Math.signum(hsp),this.yPos-height/2))){
+                    xPos += Math.signum(hsp);
+                }
+                hsp = 0;
+            }
+            //vsp
+            if(wall.getBound().contains(this.xPos+width/2,this.yPos+height/2+vsp)||
+                    wall.getBound().contains(this.xPos-width/2,this.yPos+height/2+vsp)||
+                    wall.getBound().contains(this.xPos+width/2,this.yPos-height/2+vsp)||
+                    wall.getBound().contains(this.xPos-width/2,this.yPos-height/2+vsp)){
+                while(!(wall.getBound().contains(this.xPos+width/2,this.yPos+height/2+Math.signum(vsp))||
+                        wall.getBound().contains(this.xPos-width/2,this.yPos+height/2+Math.signum(vsp))||
+                        wall.getBound().contains(this.xPos+width/2,this.yPos-height/2+Math.signum(vsp))||
+                        wall.getBound().contains(this.xPos-width/2,this.yPos-height/2+Math.signum(vsp)))){
+                    yPos += Math.signum(vsp);
+                }
+                vsp = 0;
+            }
+        }
+
         if(Math.abs(hsp) > 0 || Math.abs(vsp) > 0){
             if(delParticle <= 0){
                 delParticle = Balancing.rand.nextInt(25)+5-(int)Math.abs(hsp)-(int)Math.abs(vsp);
@@ -80,6 +113,7 @@ public class Player {
                 delParticle -= Gdx.graphics.getDeltaTime();
             }
         }
+
         xPos += hsp;
         yPos += vsp;
     }
@@ -104,7 +138,7 @@ public class Player {
         sprite.setBounds(this.xPos-width/2, this.yPos-height/2,this.width,this.height);
 
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.rect(this.xPos-width/2, this.yPos-height/2,this.width,this.height);
+//        shapeRenderer.rect(this.xPos-width/2+hsp, this.yPos-height/2+vsp,this.width,this.height);
 //        shapeRenderer.end();
 
         spriteBatch.begin();
@@ -116,6 +150,6 @@ public class Player {
         playerIdle.dispose();
     }
     public Rectangle getBound(){
-        return new Rectangle(this.xPos-width/2, this.yPos-height/2,this.width,this.height);
+        return new Rectangle(this.xPos+width/2+hsp, this.yPos+height/2+vsp,this.width,this.height);
     }
 }

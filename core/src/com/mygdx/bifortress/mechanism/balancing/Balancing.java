@@ -1,6 +1,7 @@
 package com.mygdx.bifortress.mechanism.balancing;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -21,6 +22,7 @@ import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
 import com.mygdx.bifortress.mechanism.balancing.node.Node;
 import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 import com.mygdx.bifortress.mechanism.balancing.particles.RunParticle;
+import com.mygdx.bifortress.mechanism.balancing.wall.Wall;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -39,7 +41,8 @@ public class Balancing {
     };
     public static DelayedRemovalArray<CanonCell> canonCells;
     public static DelayedRemovalArray<Fruits> fruits;
-    ShapeRenderer shapeRenderer;
+    public static ArrayList<Wall> walls;
+    public static ShapeRenderer shapeRenderer;
     public static BinarySearchTree bst;
     public static float gameZoom;
     private Stage stage;
@@ -55,6 +58,13 @@ public class Balancing {
     public Balancing(){
         player = new Player(AnimationSprite.FROG_IDLE,AnimationSprite.FROG_RUN,AnimationSprite.FROG_HIT,0,-100,64,64);
         enemies = new DelayedRemovalArray<>();
+        walls = new ArrayList<>();
+        //add walls
+        walls.add(new Wall(-2000,500,6000,500));
+        walls.add(new Wall(-2000,500-3000,1000,3000));
+        walls.add(new Wall(1000,500-3000,1000,3000));
+        walls.add(new Wall(-2000,-2500,6000,500));
+        //end add walls
         gameZoom = 1f;
         shapeRenderer = new ShapeRenderer();
         bst = new BinarySearchTree();
@@ -170,6 +180,17 @@ public class Balancing {
         }
     }
     public void render(){
+        screenViewport.apply();
+        spriteBatch.setProjectionMatrix(screenViewport.getCamera().combined);
+        shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0,0,0,0.35f);
+        shapeRenderer.rect(0,0,screenViewport.getScreenWidth(),screenViewport.getScreenHeight());
+        shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+
         mousePos = gameViewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         mousePos.x += player.hsp;
         mousePos.y += player.vsp;
@@ -192,6 +213,9 @@ public class Balancing {
         }
         for(Enemy enemy : enemies){
             enemy.render();
+        }
+        for(Wall wall : walls){
+            wall.render(shapeRenderer);
         }
         player.render();
         //UI

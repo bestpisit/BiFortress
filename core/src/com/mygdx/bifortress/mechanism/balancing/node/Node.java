@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.bifortress.mechanism.balancing.BinarySearchTree;
@@ -17,7 +18,7 @@ import static com.mygdx.bifortress.BiFortress.spriteBatch;
 public class Node {
     public float x,y,radius,xR,yR;
     public Node left,right,parent;
-    BitmapFont font = new BitmapFont();
+    BitmapFont font = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
     public int value,depth;
     public float initRadius,initX,initY,toggleX,toggleY,toggleDistance;
     public boolean toggle,tToggle,actionToggle;
@@ -27,6 +28,7 @@ public class Node {
     public static final Color color = Color.BLACK;
     public int balanceFactor;
     public boolean wrongOrder,hideUI;
+    public float uiprogress;
     public Color mainNodeColor = Color.BLACK;
     public Node(int value,BinarySearchTree origin){
         this(value,0,0,origin);
@@ -62,6 +64,7 @@ public class Node {
         balanceFactor = 0;
         wrongOrder = false;
         hideUI = false;
+        uiprogress = 0;
     }
     public void updateSelf(){
 
@@ -158,6 +161,23 @@ public class Node {
         else{
             initPow = pow;
         }
+        //ui progress
+        if(origin.uinode != this){
+            if(uiprogress > 0.5f){
+                uiprogress -= 0.5f+uiprogress/10f;
+            }
+            else{
+                uiprogress = 0f;
+            }
+        }
+        else{
+            if(uiprogress < 100){
+                uiprogress += 0.5f+(100-uiprogress)/10f;
+            }
+            else{
+                uiprogress = 100;
+            }
+        }
     }
     public int findDepth(Node now,int depth){
         if(now != null){
@@ -172,9 +192,9 @@ public class Node {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         if(this.parent != null){
-            shapeRenderer.setColor(Color.BLACK);
+            shapeRenderer.setColor(new Color(0,0,0,0.5f));
             if(wrongOrder){
-                shapeRenderer.setColor(Color.RED);
+                shapeRenderer.setColor(new Color(1,0,0,0.5f));
             }
             shapeRenderer.rectLine(this.initX,this.initY,this.parent.initX,this.parent.initY,10);
         }
@@ -223,15 +243,44 @@ public class Node {
         shapeRenderer.end();
     }
     public void render(ShapeRenderer shapeRenderer, Vector3 mousePos){
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(new Color(0,1,1,1f));
+        shapeRenderer.circle(this.initX,this.initY,37*(uiprogress)/100);
+        shapeRenderer.rect(this.initX-125*(uiprogress)/100,this.initY+50,250*(uiprogress)/100,100);
+        spriteBatch.begin();
+        font.draw(spriteBatch,balanceFactor+"\nBalance",this.initX,this.initY+100,240,1,true);
+        spriteBatch.end();
+//        if(this.parent == null){
+//
+//        }
+//        else if(this.parent.right == this){
+//            shapeRenderer.rect(this.initX,this.initY-30,250*(uiprogress)/100,60);
+//        }
+//        else if(this.parent.left == this){
+//            shapeRenderer.rect(this.initX-250*(uiprogress)/100,this.initY-30,250*(uiprogress)/100,60);
+//        }
+        shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
         renderUI(shapeRenderer, mousePos);
         spriteBatch.begin();
-        font.setColor(Color.WHITE);
-        font.draw(spriteBatch,String.valueOf(this.value),this.initX,this.initY);
-        if(!hideUI){
-            font.draw(spriteBatch, ((this.pow-(int) this.pow==0)?(int)this.pow:this.pow) +"/"+ (int) this.power,this.initX,this.initY+25);
-            font.setColor(Color.GOLD);
-            font.draw(spriteBatch,String.valueOf(-1*Math.abs(balanceFactor)),this.initX,this.initY+50);
+        if(onMouse && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+            if(origin.uinode == this){
+                origin.uinode = null;
+            }
+            else{
+                origin.uinode = this;
+            }
         }
+        font.setColor(Color.WHITE);
+        GlyphLayout glyphLayout = new GlyphLayout(font,String.valueOf(this.value));
+        font.draw(spriteBatch,glyphLayout,this.initX-glyphLayout.width/2,this.initY+glyphLayout.height/2);
+//        if(!hideUI){
+//            font.draw(spriteBatch, ((this.pow-(int) this.pow==0)?(int)this.pow:this.pow) +"/"+ (int) this.power,this.initX,this.initY+25);
+//            font.setColor(Color.GOLD);
+//            font.draw(spriteBatch,String.valueOf(-1*Math.abs(balanceFactor)),this.initX,this.initY+50);
+//        }
         spriteBatch.end();
     }
     boolean atMouse(Vector3 mousePos){

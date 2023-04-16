@@ -26,7 +26,7 @@ import static com.mygdx.bifortress.BiFortress.*;
 
 public class BinarySearchTree {
     float startX;
-    public Node root;
+    public Node root,uinode;
     public DelayedRemovalArray<Node> nodes,loneNodes;
     public DelayedRemovalArray<PowerCell> cells;
     Random rand = new Random(System.currentTimeMillis());
@@ -50,6 +50,7 @@ public class BinarySearchTree {
         toggleSelect = true;
         TreeTick = 0;
         text = new BitmapFont();
+        uinode = null;
     }
     public void getDatabase(){
         Preferences prefs = Gdx.app.getPreferences("Database");
