@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.bifortress.mechanism.balancing.Balancing;
 import com.mygdx.bifortress.mechanism.balancing.BinarySearchTree;
 import com.mygdx.bifortress.mechanism.balancing.control.MovementControl;
 import com.mygdx.bifortress.mechanism.balancing.inventory.Inventory;
@@ -30,6 +31,7 @@ public class Node {
     public boolean wrongOrder,hideUI;
     public float uiprogress;
     public Color mainNodeColor = Color.BLACK;
+    float atMe = 0,notAtMe = 0;
     public Node(int value,BinarySearchTree origin){
         this(value,0,0,origin);
     }
@@ -178,6 +180,12 @@ public class Node {
                 uiprogress = 100;
             }
         }
+        if(onMouse){
+            atMe += Gdx.graphics.getDeltaTime();
+        }
+        else{
+            atMe = 0;
+        }
     }
     public int findDepth(Node now,int depth){
         if(now != null){
@@ -246,12 +254,9 @@ public class Node {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(new Color(0,1,1,1f));
+        shapeRenderer.setColor(57/255f,1,20/255f,1);
         shapeRenderer.circle(this.initX,this.initY,37*(uiprogress)/100);
-        shapeRenderer.rect(this.initX-125*(uiprogress)/100,this.initY+50,250*(uiprogress)/100,100);
-        spriteBatch.begin();
-        font.draw(spriteBatch,balanceFactor+"\nBalance",this.initX,this.initY+100,240,1,true);
-        spriteBatch.end();
+//        shapeRenderer.rect(this.initX-125*(uiprogress)/100,this.initY+50,250*(uiprogress)/100,100);
 //        if(this.parent == null){
 //
 //        }
@@ -265,13 +270,20 @@ public class Node {
         Gdx.gl.glDisable(GL20.GL_BLEND);
         renderUI(shapeRenderer, mousePos);
         spriteBatch.begin();
-        if(onMouse && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-            if(origin.uinode == this){
-                origin.uinode = null;
+        if(onMouse && atMe > 0.1f){
+            Balancing.nodeNavigation.node = this;
+        }
+        else if(Balancing.nodeNavigation.node == this && !onMouse){
+            if(notAtMe < 0.5f){
+                notAtMe += Gdx.graphics.getDeltaTime();
             }
             else{
-                origin.uinode = this;
+                Balancing.nodeNavigation.node = null;
+                notAtMe = 0;
             }
+        }
+        else{
+            notAtMe = 0;
         }
         font.setColor(Color.WHITE);
         GlyphLayout glyphLayout = new GlyphLayout(font,String.valueOf(this.value));

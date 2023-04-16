@@ -22,6 +22,7 @@ import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
 import com.mygdx.bifortress.mechanism.balancing.node.Node;
 import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 import com.mygdx.bifortress.mechanism.balancing.particles.RunParticle;
+import com.mygdx.bifortress.mechanism.balancing.ui.NodeNavigation;
 import com.mygdx.bifortress.mechanism.balancing.wall.Wall;
 
 import java.util.ArrayList;
@@ -54,15 +55,17 @@ public class Balancing {
     public static Inventory inventory;
     public static boolean gameOver;
     public static int level,score;
+    public static NodeNavigation nodeNavigation;
     BitmapFont text;
     public Balancing(){
         player = new Player(AnimationSprite.FROG_IDLE,AnimationSprite.FROG_RUN,AnimationSprite.FROG_HIT,0,-100,64,64);
         enemies = new DelayedRemovalArray<>();
+        nodeNavigation = new NodeNavigation();
         walls = new ArrayList<>();
         //add walls
         walls.add(new Wall(-2000,500,6000,500));
-        walls.add(new Wall(-2000,500-3000,1000,3000));
-        walls.add(new Wall(1000,500-3000,1000,3000));
+        walls.add(new Wall(-2000,-2000,1000,2500));
+        walls.add(new Wall(1000,-2000,1000,2500));
         walls.add(new Wall(-2000,-2500,6000,500));
         //end add walls
         gameZoom = 1f;
@@ -186,10 +189,11 @@ public class Balancing {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0,0,0,0.35f);
+        shapeRenderer.setColor(0,0,0,0.15f);
         shapeRenderer.rect(0,0,screenViewport.getScreenWidth(),screenViewport.getScreenHeight());
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
+
 
         mousePos = gameViewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         mousePos.x += player.hsp;
@@ -231,6 +235,11 @@ public class Balancing {
         text.getData().setScale(2,2);
         text.draw(spriteBatch,glyphLayout,screenViewport.getScreenWidth()/2- glyphLayout.width/2,screenViewport.getScreenHeight()-10);
         spriteBatch.end();
+
+        screenViewport.apply();
+        spriteBatch.setProjectionMatrix(screenViewport.getCamera().combined);
+        shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
+        nodeNavigation.render(shapeRenderer);
     }
     public void dispose(){
         player.dispose();
