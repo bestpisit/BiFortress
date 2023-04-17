@@ -23,6 +23,7 @@ import com.mygdx.bifortress.mechanism.balancing.node.Node;
 import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 import com.mygdx.bifortress.mechanism.balancing.particles.RunParticle;
 import com.mygdx.bifortress.mechanism.balancing.ui.NodeNavigation;
+import com.mygdx.bifortress.mechanism.balancing.ui.UINavigation;
 import com.mygdx.bifortress.mechanism.balancing.wall.Wall;
 
 import java.util.ArrayList;
@@ -56,11 +57,13 @@ public class Balancing {
     public static boolean gameOver;
     public static int level,score;
     public static NodeNavigation nodeNavigation;
+    public static UINavigation uiNavigation;
     BitmapFont text;
     public Balancing(){
         player = new Player(AnimationSprite.FROG_IDLE,AnimationSprite.FROG_RUN,AnimationSprite.FROG_HIT,0,-100,64,64);
         enemies = new DelayedRemovalArray<>();
         nodeNavigation = new NodeNavigation();
+        uiNavigation = new UINavigation();
         walls = new ArrayList<>();
         //add walls
         walls.add(new Wall(-2000,500,6000,500));
@@ -240,6 +243,7 @@ public class Balancing {
         spriteBatch.setProjectionMatrix(screenViewport.getCamera().combined);
         shapeRenderer.setProjectionMatrix(spriteBatch.getProjectionMatrix());
         nodeNavigation.render(shapeRenderer);
+        uiNavigation.render(shapeRenderer);
     }
     public void dispose(){
         player.dispose();
@@ -256,6 +260,8 @@ public class Balancing {
             c.dispose();
         }
         shapeRenderer.dispose();
+        nodeNavigation.dispose();
+        uiNavigation.dispose();
     }
     public static void ScreenShake(int amplifier){
         int shakeX = (int)(Math.random() * amplifier) - amplifier / 2;

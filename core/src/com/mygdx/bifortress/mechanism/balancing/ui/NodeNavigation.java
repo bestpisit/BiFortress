@@ -15,7 +15,7 @@ import static com.mygdx.bifortress.mechanism.balancing.Balancing.gameZoom;
 public class NodeNavigation {
     public Node node;
     float progress,xR,yR,initX,initY,xR1,yR1,initX1,initY1;
-    BitmapFont font = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
+    BitmapFont font = new BitmapFont(Gdx.files.internal("ui/ui.fnt"));
     public NodeNavigation(){
         node = null;
         progress = 0;
@@ -56,13 +56,6 @@ public class NodeNavigation {
             Gdx.gl.glEnable(GL20.GL_BLEND);
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//            shapeRenderer.setColor(0,0,0,0.5f);
-//            shapeRenderer.rect(0,screenViewport.getScreenHeight()/2+500/2,200*progress/100,screenViewport.getScreenHeight()/2-500/2);
-//            shapeRenderer.setColor(57/255f,1,20/255f,0.5f);
-//            shapeRenderer.rectLine(-10*((100-progress)/100)+5,screenViewport.getScreenHeight()/2-500/2,-10*((100-progress)/100)+5,screenViewport.getScreenHeight()/2+500/2,10);
-//            shapeRenderer.rectLine(200*progress/100,screenViewport.getScreenHeight()/2+500/2,0,screenViewport.getScreenHeight()/2+500/2,10);
-//            shapeRenderer.rectLine(200*progress/100,screenViewport.getScreenHeight()/2-500/2,0,screenViewport.getScreenHeight()/2-500/2,10);
-//            shapeRenderer.rectLine(200*progress/100,screenViewport.getScreenHeight()/2+500/2+5,200*progress/100,screenViewport.getScreenHeight()/2-500/2-5,10);
             if(node != null){
                 Vector3 eeMap = gameViewport.getCamera().project(new Vector3(node.x+50, node.y+50, 0));
                 float nodeScreenX = eeMap.x;
@@ -81,7 +74,7 @@ public class NodeNavigation {
                 xR1 = mousePos.x;
                 yR1 = mousePos.y;
             }
-            GlyphLayout glyphLayout = new GlyphLayout(font,(node!=null)?node.balanceFactor+((Math.abs(node.balanceFactor)<=1)?"\n(Balance)":"\n(Unbalance)")+"\n"+Integer.valueOf((int) node.pow)+"/"+Integer.valueOf((int) node.power)+"\nPower":"\n\n\n", Color.WHITE,200,1,true);
+            GlyphLayout glyphLayout = new GlyphLayout(font,"Balance Factor: "+((node!=null)?node.balanceFactor:0)+"\nPower: "+((node!=null)?(int)node.pow+"/"+(int)node.power:"0/0"), Color.WHITE,200,1,true);
             if(progress > 0){
                 shapeRenderer.setColor(0,0,0,0.75f*progress/100);
                 shapeRenderer.rect(initX,initY,200, glyphLayout.height+50);
