@@ -251,24 +251,8 @@ public class Node {
         shapeRenderer.end();
     }
     public void render(ShapeRenderer shapeRenderer, Vector3 mousePos){
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(57/255f,1,20/255f,1);
-        shapeRenderer.circle(this.initX,this.initY,37*(uiprogress)/100);
-//        shapeRenderer.rect(this.initX-125*(uiprogress)/100,this.initY+50,250*(uiprogress)/100,100);
-//        if(this.parent == null){
-//
-//        }
-//        else if(this.parent.right == this){
-//            shapeRenderer.rect(this.initX,this.initY-30,250*(uiprogress)/100,60);
-//        }
-//        else if(this.parent.left == this){
-//            shapeRenderer.rect(this.initX-250*(uiprogress)/100,this.initY-30,250*(uiprogress)/100,60);
-//        }
-        shapeRenderer.end();
-        Gdx.gl.glDisable(GL20.GL_BLEND);
         renderUI(shapeRenderer, mousePos);
+
         spriteBatch.begin();
         if(onMouse && atMe > 0.1f){
             Balancing.nodeNavigation.node = this;
@@ -288,11 +272,6 @@ public class Node {
         font.setColor(Color.WHITE);
         GlyphLayout glyphLayout = new GlyphLayout(font,String.valueOf(this.value));
         font.draw(spriteBatch,glyphLayout,this.initX-glyphLayout.width/2,this.initY+glyphLayout.height/2);
-//        if(!hideUI){
-//            font.draw(spriteBatch, ((this.pow-(int) this.pow==0)?(int)this.pow:this.pow) +"/"+ (int) this.power,this.initX,this.initY+25);
-//            font.setColor(Color.GOLD);
-//            font.draw(spriteBatch,String.valueOf(-1*Math.abs(balanceFactor)),this.initX,this.initY+50);
-//        }
         spriteBatch.end();
     }
     boolean atMouse(Vector3 mousePos){

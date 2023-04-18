@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.bifortress.mechanism.balancing.Balancing;
@@ -16,6 +17,7 @@ import com.mygdx.bifortress.mechanism.balancing.inventory.Inventory;
 import com.mygdx.bifortress.mechanism.balancing.inventory.ItemNode;
 import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
 import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
+import com.mygdx.bifortress.mechanism.balancing.traversal.Traversal;
 import com.mygdx.bifortress.tutorial.TutorialMenu;
 
 import java.util.ArrayList;
@@ -89,6 +91,26 @@ public class ClockPhrase {
             Balancing.bst.inventory.itemNodes.add(new ItemNode((isNode)? DefenderNode.class: SupplierNode.class,r,Balancing.bst.inventory));
             Balancing.bst.inventory.reLocation();
             Balancing.level++;
+            Balancing.traversal.modeTraversal = Traversal.ModeTraversal.BEEP;
+            int randomNum = MathUtils.random(1, 4);
+            String nameTraversal = "";
+            if(randomNum == 1){
+                Balancing.traversal.traversalType = Traversal.TraversalType.BF;
+                nameTraversal = "Breadth First ";
+            }
+            else if(randomNum == 2){
+                Balancing.traversal.traversalType = Traversal.TraversalType.Inorder;
+                nameTraversal = "Inorder ";
+            }
+            else if(randomNum == 3){
+                Balancing.traversal.traversalType = Traversal.TraversalType.Postorder;
+                nameTraversal = "Postorder ";
+            }
+            else if(randomNum == 4){
+                Balancing.traversal.traversalType = Traversal.TraversalType.Preorder;
+                nameTraversal = "Preorder ";
+            }
+            phrases.add(new PhraseEvent(Phrase.TRAVERSAL,120,nameTraversal+"TRAVERSAL"));
             phrases.add(new PhraseEvent(Phrase.MANIPULATION,120,"TREE-MANIPULATION"));
             phrases.add(new PhraseEvent(Phrase.INVASION,5,"INVASION "+Balancing.level));
             invasion = false;
@@ -98,7 +120,8 @@ public class ClockPhrase {
         DEFAULT,
         MANIPULATION,
         INVASION,
-        NONE
+        NONE,
+        TRAVERSAL
     }
     public static PhraseEvent phrase;
     public static ArrayList<PhraseEvent> phrases;

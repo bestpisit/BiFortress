@@ -22,6 +22,7 @@ import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
 import com.mygdx.bifortress.mechanism.balancing.node.Node;
 import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 import com.mygdx.bifortress.mechanism.balancing.particles.RunParticle;
+import com.mygdx.bifortress.mechanism.balancing.traversal.Traversal;
 import com.mygdx.bifortress.mechanism.balancing.ui.NodeNavigation;
 import com.mygdx.bifortress.mechanism.balancing.ui.UINavigation;
 import com.mygdx.bifortress.mechanism.balancing.wall.Wall;
@@ -58,12 +59,14 @@ public class Balancing {
     public static int level,score;
     public static NodeNavigation nodeNavigation;
     public static UINavigation uiNavigation;
+    public static Traversal traversal;
     BitmapFont text;
     public Balancing(){
         player = new Player(AnimationSprite.FROG_IDLE,AnimationSprite.FROG_RUN,AnimationSprite.FROG_HIT,0,-100,64,64);
         enemies = new DelayedRemovalArray<>();
         nodeNavigation = new NodeNavigation();
         uiNavigation = new UINavigation();
+        traversal = new Traversal();
         walls = new ArrayList<>();
         //add walls
         walls.add(new Wall(-2000,500,6000,500));
@@ -89,6 +92,7 @@ public class Balancing {
         canonCells = new DelayedRemovalArray<>();
         clockPhrase = new ClockPhrase();
         //phrase
+        ClockPhrase.phrases.add(new ClockPhrase.PhraseEvent(ClockPhrase.Phrase.TRAVERSAL,120,"TRAVERSAL"));
         ClockPhrase.phrases.add(new ClockPhrase.PhraseEvent(ClockPhrase.Phrase.DEFAULT,5,"STARTING"));
         ClockPhrase.phrases.add(new ClockPhrase.PhraseEvent(ClockPhrase.Phrase.MANIPULATION,120,"TREE-MANIPULATION"));
         ClockPhrase.phrases.add(new ClockPhrase.PhraseEvent(ClockPhrase.Phrase.INVASION,5,"INVASION 1"));
@@ -101,6 +105,7 @@ public class Balancing {
     }
     public void update(){
         clockPhrase.update();
+        traversal.update();
         if(!gameOver){
             movementControl.update();
             player.update();
@@ -197,7 +202,6 @@ public class Balancing {
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
-
         mousePos = gameViewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         mousePos.x += player.hsp;
         mousePos.y += player.vsp;
@@ -224,6 +228,7 @@ public class Balancing {
         for(Wall wall : walls){
             wall.render(shapeRenderer);
         }
+        traversal.render(shapeRenderer,mousePos);
         player.render();
         //UI
         spriteBatch.setProjectionMatrix(screenViewport.getCamera().combined);
