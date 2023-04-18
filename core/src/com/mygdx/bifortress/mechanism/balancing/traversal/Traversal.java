@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Queue;
 import com.mygdx.bifortress.mechanism.balancing.Balancing;
 import com.mygdx.bifortress.mechanism.balancing.control.ClockPhrase;
 import com.mygdx.bifortress.mechanism.balancing.node.Node;
-import jdk.internal.module.IllegalAccessLogger;
 
 import java.util.ArrayList;
 
