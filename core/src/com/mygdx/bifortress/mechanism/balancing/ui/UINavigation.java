@@ -156,6 +156,9 @@ public class UINavigation {
                         step++;
                     }
                 }
+                else if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && str != ""){
+                    step++;
+                }
                 else{
                     shapeRenderer.setColor(Color.LIME);
                 }
@@ -184,6 +187,9 @@ public class UINavigation {
                     if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                         step++;
                     }
+                }
+                else if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && str != ""){
+                    step++;
                 }
                 else{
                     shapeRenderer.setColor(Color.LIME);
@@ -215,6 +221,9 @@ public class UINavigation {
                         step++;
                     }
                 }
+                else if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && str != ""){
+                    step++;
+                }
                 else{
                     shapeRenderer.setColor(Color.LIME);
                 }
@@ -243,6 +252,9 @@ public class UINavigation {
                     if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                         step++;
                     }
+                }
+                else if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && str != ""){
+                    step++;
                 }
                 else{
                     shapeRenderer.setColor(Color.LIME);

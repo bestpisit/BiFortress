@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Queue;
@@ -14,8 +16,11 @@ import jdk.internal.module.IllegalAccessLogger;
 
 import java.util.ArrayList;
 
+import static com.mygdx.bifortress.BiFortress.spriteBatch;
+
 public class Traversal {
     ArrayList<Node> nodeSequence,answerSequence,chooseSequence;
+    BitmapFont font = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
     Node currentNode=null;
     float time=0;
     public enum TraversalType{
@@ -245,6 +250,13 @@ public class Traversal {
             }
             shapeRenderer.end();
             Gdx.gl.glDisable(GL20.GL_BLEND);
+            spriteBatch.begin();
+            for(Node node: Balancing.bst.nodes){
+                font.setColor(Color.WHITE);
+                GlyphLayout glyphLayout = new GlyphLayout(font,String.valueOf(node.value));
+                font.draw(spriteBatch,glyphLayout,node.initX-glyphLayout.width/2,node.initY+glyphLayout.height/2);
+            }
+            spriteBatch.end();
         }
     }
 }
