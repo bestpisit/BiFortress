@@ -11,9 +11,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Queue;
 import com.mygdx.bifortress.mechanism.balancing.Balancing;
 import com.mygdx.bifortress.mechanism.balancing.control.ClockPhrase;
+import com.mygdx.bifortress.mechanism.balancing.inventory.ItemNode;
+import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
 import com.mygdx.bifortress.mechanism.balancing.node.Node;
+import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static com.mygdx.bifortress.BiFortress.spriteBatch;
 
@@ -239,6 +243,13 @@ public class Traversal {
                         }
                     }
                     else{
+                        //get free node
+                        Random rand = new Random();
+                        int r = rand.nextInt(100);
+                        boolean isNode = rand.nextBoolean();
+                        Balancing.bst.inventory.itemNodes.add(new ItemNode((isNode)? DefenderNode.class: SupplierNode.class,r,Balancing.bst.inventory));
+                        Balancing.bst.inventory.reLocation();
+                        //end get free node
                         time = 0;
                         answerSequence.clear();
                         nodeSequence.clear();

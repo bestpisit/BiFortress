@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.bifortress.BiFortress;
 import com.mygdx.bifortress.mechanism.balancing.Balancing;
+import com.mygdx.bifortress.mechanism.balancing.BinarySearchTree;
 import com.mygdx.bifortress.mechanism.balancing.control.ClockPhrase;
 import com.mygdx.bifortress.mechanism.balancing.enemies.Enemy;
 import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
@@ -226,8 +227,79 @@ public class UINavigation {
             case 13:
                 xR = screenViewport.getScreenWidth()-250;
                 yR = 40;
-                str = "This is your Node Inventory, you can simply drag the node in the inventory to the tree for Node Insertion";
+                str = "After you complete the node traversal you will get one node for free";
                 pointDir = PointDir.DOWN;
+                nextStep = 14;
+                reCheck = true;
+                break;
+            case 14:
+                xR = screenViewport.getScreenWidth()-250;
+                yR = 40;
+                str = "This is your Node Inventory, its collects the nodes you get";
+                pointDir = PointDir.DOWN;
+                nextStep = 15;
+                reCheck = true;
+                break;
+            case 15:
+                xR = screenViewport.getScreenWidth()-250;
+                yR = 40;
+                str = "Select one node and DRAG to the position for node Insertion";
+                reCheck = true;
+                pointDir = PointDir.DOWN;
+                if(Balancing.bst.onNode != null){
+                    step = 16;
+                }
+                break;
+            case 16:
+                Node s16node = null;
+                boolean lefts16 = true;
+                for(Node n: Balancing.bst.nodes){
+                    if(n != Balancing.bst.onNode && Balancing.bst.onNode != null){
+                        if(n.left == null && Balancing.bst.onNode.value <= n.value){
+                            s16node = n;
+                            break;
+                        }
+                        else if(n.right == null && Balancing.bst.onNode.value > n.value){
+                            s16node = n;
+                            lefts16 = false;
+                            break;
+                        }
+                    }
+                }
+                if(s16node != null){
+                    eeMap = gameViewport.getCamera().project(new Vector3(s16node.initX+ (BinarySearchTree.xyRange-10)*((lefts16)?-1:1),s16node.initY-BinarySearchTree.xyRange, 0));
+                    nodeScreenX = eeMap.x;
+                    nodeScreenY = eeMap.y;
+
+                    nodeScreenY = Gdx.graphics.getHeight() - nodeScreenY;
+                    mousePos = screenViewport.getCamera().unproject(new Vector3(nodeScreenX, nodeScreenY, 0));
+                    xR = mousePos.x;
+                    yR = mousePos.y;
+                }
+                str = "Place it here";
+                pointDir = PointDir.UP;
+                if(Balancing.bst.onNode == null && Balancing.inventory.itemNodes.size > 0){
+                    step = 15;
+                }
+                else if(Balancing.bst.onNode == null){
+                    step = 17;
+                }
+                break;
+            case 17:
+                xR = screenViewport.getScreenWidth()/2;
+                yR = 40;
+                str = "Nice finally you have understand how to play, Good luck!";
+                reCheck = true;
+                pointDir = PointDir.DOWN;
+                nextStep = 18;
+                break;
+            case 18:
+                xR = screenViewport.getScreenWidth()/2;
+                yR = 40;
+                str = "";
+                reCheck = true;
+                pointDir = PointDir.DOWN;
+                nextStep = -1;
                 break;
         }
         double distance = Math.sqrt(Math.pow(initX - xR,2)+Math.pow(initY - yR,2));
