@@ -84,12 +84,6 @@ public class ClockPhrase {
     }
     public void updateInvasion(){
         if(Balancing.enemies.size <= 0){
-            //get free node
-            Random rand = new Random();
-            int r = rand.nextInt(100);
-            boolean isNode = rand.nextBoolean();
-            Balancing.bst.inventory.itemNodes.add(new ItemNode((isNode)? DefenderNode.class: SupplierNode.class,r,Balancing.bst.inventory));
-            Balancing.bst.inventory.reLocation();
             Balancing.level++;
             Balancing.traversal.modeTraversal = Traversal.ModeTraversal.BEEP;
             int randomNum = MathUtils.random(1, 4);
