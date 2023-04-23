@@ -80,6 +80,7 @@ public class ClockPhrase {
         }
         for(int i=0;i<Balancing.level;i++){
             Balancing.enemies.add(new Bat(500,300,0.5f));
+            //hey code it here
         }
     }
     public void updateInvasion(){
