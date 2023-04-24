@@ -2,6 +2,7 @@ package com.mygdx.bifortress.mechanism.balancing.traversal;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -24,7 +25,13 @@ import static com.mygdx.bifortress.BiFortress.spriteBatch;
 public class Traversal {
     ArrayList<Node> nodeSequence,answerSequence,chooseSequence;
     BitmapFont font = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
+    public static Sound beepSound = Gdx.audio.newSound(Gdx.files.internal("sounds/beep.mp3"));
+    public static Sound showSound = Gdx.audio.newSound(Gdx.files.internal("sounds/show.mp3"));
+    public static Sound chooseSound = Gdx.audio.newSound(Gdx.files.internal("sounds/choose.mp3"));
+    public static Sound trueSound = Gdx.audio.newSound(Gdx.files.internal("sounds/true.mp3"));
+    public static Sound falseSound = Gdx.audio.newSound(Gdx.files.internal("sounds/false.mp3"));
     Node currentNode=null;
+    boolean soundPlay = false;
     float time=0;
     public enum TraversalType{
         BF,Inorder,Preorder,Postorder
@@ -111,17 +118,26 @@ public class Traversal {
                             shapeRenderer.setColor(Color.WHITE);
                             shapeRenderer.circle(node.initX,node.initY,37);
                         }
+                        if(!soundPlay){
+                            beepSound.play();
+                            soundPlay = true;
+                        }
                     }
                     else if(time < 1f){
                         for(Node node: Balancing.bst.nodes){
                             shapeRenderer.setColor(Color.BLACK);
                             shapeRenderer.circle(node.initX,node.initY,37);
                         }
+                        soundPlay = false;
                     }
                     else if(time < 1.5f){
                         for(Node node: Balancing.bst.nodes){
                             shapeRenderer.setColor(Color.WHITE);
                             shapeRenderer.circle(node.initX,node.initY,37);
+                        }
+                        if(!soundPlay){
+                            beepSound.play();
+                            soundPlay = true;
                         }
                     }
                     else if(time < 2f){
@@ -129,11 +145,16 @@ public class Traversal {
                             shapeRenderer.setColor(Color.BLACK);
                             shapeRenderer.circle(node.initX,node.initY,37);
                         }
+                        soundPlay = false;
                     }
                     else if(time < 2.5f){
                         for(Node node: Balancing.bst.nodes){
                             shapeRenderer.setColor(Color.WHITE);
                             shapeRenderer.circle(node.initX,node.initY,37);
+                        }
+                        if(!soundPlay){
+                            beepSound.play();
+                            soundPlay = true;
                         }
                     }
                     else if(time < 3f){
@@ -144,6 +165,7 @@ public class Traversal {
                     }
                     else{
                         time = 0;
+                        soundPlay = false;
                         generateSequence();
                         modeTraversal = ModeTraversal.SHOW;
                         answerSequence.clear();
@@ -165,9 +187,11 @@ public class Traversal {
                             currentNode = null;
                             modeTraversal = ModeTraversal.CHOOSE;
                             chooseSequence.clear();
+                            soundPlay = false;
                             time = 0;
                         }
                         else{
+                            showSound.play();
                             currentNode = nodeSequence.remove(0);
                         }
                         time = 0;
@@ -187,6 +211,7 @@ public class Traversal {
                             shapeRenderer.setColor(Color.LIME);
                             if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                                 chooseSequence.add(node);
+                                chooseSound.play();
                             }
                         }
                         else if(chooseSequence.contains(node)){
@@ -200,12 +225,14 @@ public class Traversal {
                         if(chooseSequence.get(i) != answerSequence.get(i)){
                             chooseSequence.clear();
                             modeTraversal = ModeTraversal.FAIL;
+                            soundPlay = false;
                             time = 0;
                             pass = false;
                         }
                     }
                     if(pass && chooseSequence.size() == answerSequence.size()){
                         modeTraversal = ModeTraversal.TRUE;
+                        soundPlay = false;
                         chooseSequence.clear();
                         answerSequence.clear();
                         nodeSequence.clear();
@@ -213,6 +240,10 @@ public class Traversal {
                     }
                     break;
                 case FAIL:
+                    if(!soundPlay){
+                        soundPlay = true;
+                        falseSound.play();
+                    }
                     if(time < 1f){
                         time += Gdx.graphics.getDeltaTime();
                         for(Node node: Balancing.bst.nodes){
@@ -224,6 +255,7 @@ public class Traversal {
                         time = 0;
                         generateSequence();
                         modeTraversal = ModeTraversal.SHOW;
+                        soundPlay = false;
                         answerSequence.clear();
                         for(Node node: nodeSequence){
                             answerSequence.add(node);
@@ -235,6 +267,10 @@ public class Traversal {
                     }
                     break;
                 case TRUE:
+                    if(!soundPlay){
+                        soundPlay = true;
+                        trueSound.play();
+                    }
                     if(time < 1f){
                         time += Gdx.graphics.getDeltaTime();
                         for(Node node: Balancing.bst.nodes){
@@ -249,6 +285,7 @@ public class Traversal {
                         boolean isNode = rand.nextBoolean();
                         Balancing.bst.inventory.itemNodes.add(new ItemNode((isNode)? DefenderNode.class: SupplierNode.class,r,Balancing.bst.inventory));
                         Balancing.bst.inventory.reLocation();
+                        soundPlay = false;
                         //end get free node
                         time = 0;
                         answerSequence.clear();
@@ -268,5 +305,12 @@ public class Traversal {
             }
             spriteBatch.end();
         }
+    }
+    public void dispose(){
+        beepSound.dispose();
+        showSound.dispose();
+        chooseSound.dispose();
+        trueSound.dispose();
+        falseSound.dispose();
     }
 }

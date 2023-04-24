@@ -92,7 +92,7 @@ public class Balancing {
         canonCells = new DelayedRemovalArray<>();
         clockPhrase = new ClockPhrase();
         //phrase
-//        ClockPhrase.phrases.add(new ClockPhrase.PhraseEvent(ClockPhrase.Phrase.TRAVERSAL,120,"TRAVERSAL"));
+        ClockPhrase.phrases.add(new ClockPhrase.PhraseEvent(ClockPhrase.Phrase.TRAVERSAL,120,"TRAVERSAL"));
         ClockPhrase.phrases.add(new ClockPhrase.PhraseEvent(ClockPhrase.Phrase.DEFAULT,5,"STARTING"));
         ClockPhrase.phrases.add(new ClockPhrase.PhraseEvent(ClockPhrase.Phrase.MANIPULATION,120,"TREE-MANIPULATION"));
         ClockPhrase.phrases.add(new ClockPhrase.PhraseEvent(ClockPhrase.Phrase.INVASION,5,"INVASION 1"));
@@ -267,6 +267,7 @@ public class Balancing {
         shapeRenderer.dispose();
         nodeNavigation.dispose();
         uiNavigation.dispose();
+        traversal.dispose();
     }
     public static void ScreenShake(int amplifier){
         int shakeX = (int)(Math.random() * amplifier) - amplifier / 2;
