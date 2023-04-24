@@ -1,10 +1,8 @@
 package com.mygdx.bifortress;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,9 +18,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.bifortress.animation.AnimationSprite;
 import com.mygdx.bifortress.intro.Introduction;
 import com.mygdx.bifortress.mechanism.Mechanism;
+import com.mygdx.bifortress.mechanism.balancing.Balancing;
 import com.mygdx.bifortress.menu.Menu;
 import com.mygdx.bifortress.option.Option;
 import com.mygdx.bifortress.tutorial.Tutorial;
+import com.badlogic.gdx.Gdx;
 
 public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	public static SpriteBatch spriteBatch;
@@ -98,7 +98,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	static boolean modeChange;
 	static GameStatus nextStatus;
 	ShapeRenderer shapeRenderer;
-
+	Music menuMusic,endMusic,playMusic;
 	public static AssetManager manager = new AssetManager();
 	public static boolean isUpdateAsset = false,isCreate = false;
 	AnimationSprite animationSprite;
@@ -130,6 +130,9 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		nextStatus = GameStatus.MENU;
 		shapeRenderer = new ShapeRenderer();
 		option = new Option();
+		menuMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/main.mp3"));
+		endMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/end.mp3"));
+		playMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/play1.mp3"));
 	}
 	public void update(){
 		if(gameStatus == GameStatus.EXIT){
@@ -143,6 +146,11 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		}
 		switch(gameStatus){
 			case MENU:
+				if(!menuMusic.isPlaying() && introduction == null){
+					menuMusic.play();
+					playMusic.stop();
+					endMusic.stop();
+				}
 				if(introduction != null){
 					if(introduction.alpha == 300){
 						introduction.dispose();
@@ -151,6 +159,16 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 				}
 				break;
 			case PLAY:
+				if(!playMusic.isPlaying() && !Balancing.gameOver){
+					menuMusic.stop();
+					playMusic.play();
+					endMusic.stop();
+				}
+				else if(Balancing.gameOver && !endMusic.isPlaying()){
+					menuMusic.stop();
+					playMusic.stop();
+					endMusic.play();
+				}
 				mechanism.update();
 				break;
 			case TUTORIAL:
