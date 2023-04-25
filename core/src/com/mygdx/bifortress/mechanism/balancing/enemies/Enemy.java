@@ -13,10 +13,11 @@ public class Enemy{
     float stateTime;
     public float width,height;
     public float xPos,yPos;
-    protected float MOVE_SPEED = 5f;
+    public float MOVE_SPEED = 5f;
     public float hsp,vsp;
     public float life;
     boolean isHit;
+    float freezeTime;
     float power;
     public Enemy(float x, float y){
         stateTime = 0f;
@@ -28,6 +29,10 @@ public class Enemy{
         life = 1;
         isHit = false;
         power = 0;
+        freezeTime = 0;
+    }
+    public void getFreeze(float time){
+        freezeTime = time;
     }
     public void getHit(float value){
         isHit = true;
@@ -49,6 +54,14 @@ public class Enemy{
         double radian = 0;
         int distance = 0;
         Node n = null;
+        float wsp = MOVE_SPEED;
+        if(freezeTime > 0){
+            wsp = 0;
+            freezeTime -= Gdx.graphics.getDeltaTime();
+        }
+        else{
+            freezeTime = 0;
+        }
         if(o instanceof Node) {
             n = (Node) o;
             radian = (Math.atan2(n.initY - this.yPos, n.initX - this.xPos));
@@ -56,8 +69,8 @@ public class Enemy{
         }
         if(n != null){
             if(distance > n.radius){
-                hsp = MOVE_SPEED * (float)Math.cos(radian);
-                vsp = MOVE_SPEED * (float)Math.sin(radian);
+                hsp = wsp * (float)Math.cos(radian);
+                vsp = wsp * (float)Math.sin(radian);
             }else{
                 //Balancing.enemies.removeIndex(Balancing.enemies.indexOf(this,true));
                 Balancing.ScreenShake(20);

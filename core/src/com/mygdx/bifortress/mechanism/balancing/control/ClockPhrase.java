@@ -11,8 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.bifortress.mechanism.balancing.Balancing;
 import com.mygdx.bifortress.mechanism.balancing.BinarySearchTree;
-import com.mygdx.bifortress.mechanism.balancing.enemies.Bat;
-import com.mygdx.bifortress.mechanism.balancing.enemies.Infernous;
+import com.mygdx.bifortress.mechanism.balancing.enemies.*;
 import com.mygdx.bifortress.mechanism.balancing.inventory.Inventory;
 import com.mygdx.bifortress.mechanism.balancing.inventory.ItemNode;
 import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
@@ -72,15 +71,36 @@ public class ClockPhrase {
         }
     }
     public static void createInvasion(){
+        double amount = Math.log(Balancing.level)/Math.log(2);
         if(Balancing.level % 10 == 0){
             int count = Balancing.level/10;
             for(int i=0;i<count;i++){
                 Balancing.enemies.add(new Infernous(500,300));
             }
         }
-        for(int i=0;i<Balancing.level;i++){
+        for(int i=0;i<=amount;i++){
             Balancing.enemies.add(new Bat(500,300,0.5f));
             //hey code it here
+        }
+        if(Balancing.level>=5){
+            for(int i=0;i<=amount/2;i++){
+                Balancing.enemies.add(new Bunny(500,300,1));
+            }
+        }
+        if(Balancing.level>=8){
+            for(int i=0;i<=amount/3;i++){
+                Balancing.enemies.add(new Ghost(500,300,1));
+            }
+        }
+        if(Balancing.level>=12){
+            for(int i=0;i<=amount/4;i++){
+                Balancing.enemies.add(new Chameleon(500,300,2));
+            }
+        }
+        if(Balancing.level>=15){
+            for(int i=0;i<=amount/4;i++){
+                Balancing.enemies.add(new Trunk(500,300,1));
+            }
         }
     }
     public void updateInvasion(){

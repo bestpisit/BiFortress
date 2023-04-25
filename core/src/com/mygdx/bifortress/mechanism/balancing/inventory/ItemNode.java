@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.bifortress.mechanism.balancing.control.ClockPhrase;
 import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
+import com.mygdx.bifortress.mechanism.balancing.node.FreezeNode;
 import com.mygdx.bifortress.mechanism.balancing.node.Node;
 import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 
@@ -54,6 +55,8 @@ public class ItemNode {
                     newNode = new SupplierNode(this.value, origin.origin);
                 } else if (type == DefenderNode.class) {
                     newNode = new DefenderNode(this.value, origin.origin);
+                } else if (type == FreezeNode.class) {
+                    newNode = new FreezeNode(this.value, origin.origin);
                 } else {
                     newNode = new Node(this.value, origin.origin);
                 }
@@ -74,6 +77,9 @@ public class ItemNode {
         }
         else if(type == DefenderNode.class){
             shapeRenderer.setColor(Color.GRAY);
+        }
+        else if(type == FreezeNode.class){
+            shapeRenderer.setColor(Color.CYAN);
         }
         else{
             shapeRenderer.setColor(Color.BLACK);

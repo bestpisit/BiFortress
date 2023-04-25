@@ -14,6 +14,7 @@ import com.mygdx.bifortress.mechanism.balancing.Balancing;
 import com.mygdx.bifortress.mechanism.balancing.control.ClockPhrase;
 import com.mygdx.bifortress.mechanism.balancing.inventory.ItemNode;
 import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
+import com.mygdx.bifortress.mechanism.balancing.node.FreezeNode;
 import com.mygdx.bifortress.mechanism.balancing.node.Node;
 import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 
@@ -282,8 +283,19 @@ public class Traversal {
                         //get free node
                         Random rand = new Random();
                         int r = rand.nextInt(100);
+                        int randN = rand.nextInt(1,3);
+                        randN = 3;
+                        if(randN==1){
+                            Balancing.bst.inventory.itemNodes.add(new ItemNode(DefenderNode.class,r,Balancing.bst.inventory));
+                        }
+                        else if(randN==2){
+                            Balancing.bst.inventory.itemNodes.add(new ItemNode(SupplierNode.class,r,Balancing.bst.inventory));
+                        }
+                        else{
+                            Balancing.bst.inventory.itemNodes.add(new ItemNode(FreezeNode.class,r,Balancing.bst.inventory));
+                        }
                         boolean isNode = rand.nextBoolean();
-                        Balancing.bst.inventory.itemNodes.add(new ItemNode((isNode)? DefenderNode.class: SupplierNode.class,r,Balancing.bst.inventory));
+                        //Balancing.bst.inventory.itemNodes.add(new ItemNode((isNode)? DefenderNode.class: SupplierNode.class,r,Balancing.bst.inventory));
                         Balancing.bst.inventory.reLocation();
                         soundPlay = false;
                         //end get free node

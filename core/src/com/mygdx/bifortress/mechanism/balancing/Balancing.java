@@ -19,6 +19,7 @@ import com.mygdx.bifortress.mechanism.balancing.enemies.*;
 import com.mygdx.bifortress.mechanism.balancing.inventory.Inventory;
 import com.mygdx.bifortress.mechanism.balancing.items.Fruits;
 import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
+import com.mygdx.bifortress.mechanism.balancing.node.FreezeNode;
 import com.mygdx.bifortress.mechanism.balancing.node.Node;
 import com.mygdx.bifortress.mechanism.balancing.node.SupplierNode;
 import com.mygdx.bifortress.mechanism.balancing.particles.RunParticle;
@@ -119,11 +120,12 @@ public class Balancing {
                 bst.reLocation();
             }
             if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
-                enemies.add(new Bat(500,300,1));
-                enemies.add(new Ghost(500,300,1));
-                enemies.add(new Trunk(500,300,1));
-                enemies.add(new Chameleon(500,300,1));
-                enemies.add(new Bunny(500,300,1));
+//                enemies.add(new Bat(500,300,1));
+//                enemies.add(new Ghost(500,300,1));
+//                enemies.add(new Trunk(500,300,1));
+//                enemies.add(new Chameleon(500,300,1));
+//                enemies.add(new Bunny(500,300,1));
+                enemies.add(new Infernous(500,300));
             }
             if(Gdx.input.isKeyJustPressed(Input.Keys.Z)){
                 bst.nodes.clear();
@@ -135,7 +137,7 @@ public class Balancing {
                 bst.insert(new DefenderNode(1,bst));
                 bst.insert(new DefenderNode(3,bst));
                 bst.insert(new DefenderNode(5,bst));
-                bst.insert(new DefenderNode(7,bst));
+                bst.insert(new FreezeNode(7,bst));
                 bst.reLocation();
             }
             else if(Gdx.input.isKeyJustPressed(Input.Keys.X)){

@@ -62,31 +62,6 @@ public class Ghost extends Enemy{
         sprite.draw(spriteBatch);
         spriteBatch.end();
     }
-    public void tracking(Object o){
-        hsp = 0;
-        vsp = 0;
-        double radian = 0;
-        int distance = 0;
-        Node n = null;
-        if(o instanceof Node) {
-            n = (Node) o;
-            radian = (Math.atan2(n.initY - this.yPos, n.initX - this.xPos));
-            distance = (int) Math.sqrt(Math.pow(n.initX-this.xPos,2) + Math.pow(n.initY-this.yPos,2));
-        }
-        if(n != null){
-            if(distance > n.radius){
-                hsp = MOVE_SPEED * (float)Math.cos(radian);
-                vsp = MOVE_SPEED * (float)Math.sin(radian);
-            }else{
-                Balancing.ScreenShake(20);
-                getHit(1);
-                n.pow -= power;
-                n.origin.rotate(n,n.parent!=null ? n.parent : n.left!=null ? n.left : n.right);
-            }
-        }
-        xPos += hsp;
-        yPos += vsp;
-    }
     public void dispose(){
         idleAnimation.dispose();
         hitAnimation.dispose();
