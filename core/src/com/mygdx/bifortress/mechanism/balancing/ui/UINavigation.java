@@ -48,6 +48,9 @@ public class UINavigation {
         else{
             progress = 0;
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            step = -1;
+        }
         //update
         switch(step){
             case 0:
@@ -318,9 +321,9 @@ public class UINavigation {
                 str = "Nice, you finally understand how to play.\nGood luck!";
                 reCheck = true;
                 pointDir = PointDir.DOWN;
-                nextStep = 18;
+                nextStep = -1;
                 break;
-            case 18:
+            case -1:
                 xR = screenViewport.getScreenWidth()/2;
                 yR = 40;
                 str = "";

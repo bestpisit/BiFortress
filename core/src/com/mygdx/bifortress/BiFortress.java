@@ -102,6 +102,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 	public static AssetManager manager = new AssetManager();
 	public static boolean isUpdateAsset = false,isCreate = false;
 	AnimationSprite animationSprite;
+	public static float musicVolume = 1f;
 	@Override
 	public void create() {
 		animationSprite = AnimationSprite.FROG_RUN;
@@ -144,6 +145,25 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		if(introduction != null){
 			introduction.update();
 		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.PLUS)){
+			if(musicVolume < 1f){
+				musicVolume += 0.1f;
+			}
+			else{
+				musicVolume = 1f;
+			}
+		}
+		else if(Gdx.input.isKeyJustPressed(Input.Keys.MINUS)){
+			if(musicVolume > 0f){
+				musicVolume -= 0.1f;
+			}
+			else{
+				musicVolume = 0f;
+			}
+		}
+		menuMusic.setVolume(musicVolume);
+		playMusic.setVolume(musicVolume/2);
+		endMusic.setVolume(musicVolume);
 		switch(gameStatus){
 			case MENU:
 				if(!menuMusic.isPlaying() && introduction == null){
