@@ -145,8 +145,8 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 		if(introduction != null){
 			introduction.update();
 		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.PLUS)){
-			if(musicVolume < 1f){
+		if(Gdx.input.isKeyJustPressed(Input.Keys.EQUALS) || Gdx.input.isKeyJustPressed(Input.Keys.PLUS)){
+			if(musicVolume+0.1f < 1f){
 				musicVolume += 0.1f;
 			}
 			else{
@@ -154,13 +154,14 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 			}
 		}
 		else if(Gdx.input.isKeyJustPressed(Input.Keys.MINUS)){
-			if(musicVolume > 0f){
+			if(musicVolume-0.1f > 0f){
 				musicVolume -= 0.1f;
 			}
 			else{
 				musicVolume = 0f;
 			}
 		}
+//		System.out.println(musicVolume);
 		menuMusic.setVolume(musicVolume);
 		playMusic.setVolume(musicVolume/2);
 		endMusic.setVolume(musicVolume);
