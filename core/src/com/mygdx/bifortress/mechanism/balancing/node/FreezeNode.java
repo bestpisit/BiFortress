@@ -103,7 +103,7 @@ public class FreezeNode extends Node {
                 if(pow-level > 0){
                     headDeg = (float) Math.toDegrees(Math.atan2(target.yPos - this.initY, target.xPos - this.initX));
                 }
-                if(distance < 500f && Math.abs(initDeg-headDeg)<5){
+                if(distance < 700f && Math.abs(initDeg-headDeg)<5){
                     if(this.timeDelay <= 0 && this.pow-level > 0){
                         timeDelay = maxTimeDelay;
                         if(!shoot){

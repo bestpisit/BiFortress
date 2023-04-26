@@ -21,7 +21,7 @@ public class Trunk extends Enemy{
         height = idleAnimation.height;
         sHit = true;
         life = 3;
-        MOVE_SPEED = 10f;
+        MOVE_SPEED = 7f;
     }
     public void updateSelf(){
         stateTime += Gdx.graphics.getDeltaTime()/4;

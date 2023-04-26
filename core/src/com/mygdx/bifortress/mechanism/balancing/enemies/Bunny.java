@@ -21,7 +21,7 @@ public class Bunny extends Enemy{
         height = idleAnimation.height;
         sHit = true;
         life = 2;
-        MOVE_SPEED = 7f;
+        MOVE_SPEED = 5f;
     }
     public void updateSelf(){
         stateTime += Gdx.graphics.getDeltaTime()/4;

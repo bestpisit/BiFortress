@@ -78,8 +78,9 @@ public class Balancing {
         gameZoom = 1f;
         shapeRenderer = new ShapeRenderer();
         bst = new BinarySearchTree();
-        bst.insert(new SupplierNode(1,bst));
-        bst.insert(new DefenderNode(2,bst));
+        bst.insert(new SupplierNode(2,bst));
+        bst.insert(new DefenderNode(1,bst));
+        bst.insert(new FreezeNode(3,bst));
         bst.reLocation();
         stage = new Stage(gameViewport, spriteBatch);
         if (!inputMultiplexer.getProcessors().contains(stage,true)){
@@ -186,8 +187,9 @@ public class Balancing {
                 gameOver = false;
                 bst.nodes.clear();
                 bst.loneNodes.clear();
-                bst.insert(new SupplierNode(1,bst));
-                bst.insert(new DefenderNode(2,bst));
+                bst.insert(new SupplierNode(2,bst));
+                bst.insert(new DefenderNode(1,bst));
+                bst.insert(new FreezeNode(3,bst));
                 bst.reLocation();
             }
         }

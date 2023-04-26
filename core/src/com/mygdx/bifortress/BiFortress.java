@@ -161,6 +161,7 @@ public class BiFortress extends ApplicationAdapter implements InputProcessor {
 			case PLAY:
 				if(!playMusic.isPlaying() && !Balancing.gameOver){
 					menuMusic.stop();
+					playMusic.setVolume(0.5f);
 					playMusic.play();
 					endMusic.stop();
 				}

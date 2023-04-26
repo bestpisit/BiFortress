@@ -284,7 +284,6 @@ public class Traversal {
                         Random rand = new Random();
                         int r = rand.nextInt(100);
                         int randN = rand.nextInt(1,3);
-                        randN = 3;
                         if(randN==1){
                             Balancing.bst.inventory.itemNodes.add(new ItemNode(DefenderNode.class,r,Balancing.bst.inventory));
                         }

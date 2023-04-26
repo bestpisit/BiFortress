@@ -17,6 +17,7 @@ import com.mygdx.bifortress.mechanism.balancing.BinarySearchTree;
 import com.mygdx.bifortress.mechanism.balancing.control.ClockPhrase;
 import com.mygdx.bifortress.mechanism.balancing.enemies.Enemy;
 import com.mygdx.bifortress.mechanism.balancing.node.DefenderNode;
+import com.mygdx.bifortress.mechanism.balancing.node.FreezeNode;
 import com.mygdx.bifortress.mechanism.balancing.node.Node;
 import com.mygdx.bifortress.mechanism.balancing.traversal.Traversal;
 
@@ -59,39 +60,39 @@ public class UINavigation {
             case 1:
                 xR = screenViewport.getScreenWidth()/2;
                 yR = screenViewport.getScreenHeight()/2-64;
-                str = "Press WASD key to move around";
+                str = "Use WASD to move";
                 pointDir = PointDir.UP;
                 nextStep = 2;
                 break;
             case 2:
                 xR = screenViewport.getScreenWidth()/2;
                 yR = screenViewport.getScreenHeight()-100;
-                str = "This is your score that display your progress";
+                str = "Score displays progress";
                 pointDir = PointDir.UP;
                 nextStep = 3;
                 break;
             case 3:
                 xR = 250;
                 yR = 50;
-                str = "This is the phrase timer to show the current progress";
+                str = "This is the timer that shows the current progress";
                 pointDir = PointDir.DOWN;
                 nextStep = 4;
                 break;
             case 4:
                 xR = screenViewport.getScreenWidth()-250;
                 yR = screenViewport.getScreenHeight()-100;
-                str = "Change the node control by right clicking";
+                str = "Right-click to change node control";
                 pointDir = PointDir.UP;
                 nextStep = 5;
                 break;
             case 5:
                 xR = screenViewport.getScreenWidth()-250;
                 yR = screenViewport.getScreenHeight()-100;
-                str = "The Node Control Provides Deletion, Rotation and Default";
+                str = "With the Node Control, you can delete, rotate, or reset to default";
                 pointDir = PointDir.UP;
-                nextStep = 6;
+                nextStep = 51;
                 break;
-            case 6:
+            case 51:
                 Vector3 eeMap = gameViewport.getCamera().project(new Vector3((Balancing.bst.root!=null)?Balancing.bst.root.x:0, (Balancing.bst.root!=null)?Balancing.bst.root.y:0, 0));
                 float nodeScreenX = eeMap.x;
                 float nodeScreenY = eeMap.y;
@@ -100,7 +101,33 @@ public class UINavigation {
                 Vector3 mousePos = screenViewport.getCamera().unproject(new Vector3(nodeScreenX, nodeScreenY, 0));
                 xR = mousePos.x;
                 yR = mousePos.y;
-                str = "This is Supplier Node (Green)\nit emit the power cells to supply the power to all the node in the tree";
+                str = "Node provides protection and info. Hover over node circle for pop-up";
+                pointDir = PointDir.DOWN;
+                nextStep = 52;
+                break;
+            case 52:
+                eeMap = gameViewport.getCamera().project(new Vector3((Balancing.bst.root!=null)?Balancing.bst.root.x:0, (Balancing.bst.root!=null)?Balancing.bst.root.y:0, 0));
+                nodeScreenX = eeMap.x;
+                nodeScreenY = eeMap.y;
+
+                nodeScreenY = Gdx.graphics.getHeight() - nodeScreenY;
+                mousePos = screenViewport.getCamera().unproject(new Vector3(nodeScreenX, nodeScreenY, 0));
+                xR = mousePos.x;
+                yR = mousePos.y;
+                str = "Each node requires power to operate, with the maximum power depending on the node's balancing factor. The higher the balancing factor, the less power is needed. Therefore, you must balance the tree";
+                pointDir = PointDir.DOWN;
+                nextStep = 6;
+                break;
+            case 6:
+                eeMap = gameViewport.getCamera().project(new Vector3((Balancing.bst.root!=null)?Balancing.bst.root.x:0, (Balancing.bst.root!=null)?Balancing.bst.root.y:0, 0));
+                nodeScreenX = eeMap.x;
+                nodeScreenY = eeMap.y;
+
+                nodeScreenY = Gdx.graphics.getHeight() - nodeScreenY;
+                mousePos = screenViewport.getCamera().unproject(new Vector3(nodeScreenX, nodeScreenY, 0));
+                xR = mousePos.x;
+                yR = mousePos.y;
+                str = "This is a Supplier Node (Green).\nIt emits power cells to supply power to all the nodes in the tree";
                 pointDir = PointDir.DOWN;
                 nextStep = 7;
                 break;
@@ -124,21 +151,45 @@ public class UINavigation {
                 mousePos = screenViewport.getCamera().unproject(new Vector3(nodeScreenX, nodeScreenY, 0));
                 xR = mousePos.x;
                 yR = mousePos.y;
-                str = "This is Defender Node (Grey)\nit help shooting the incoming raid of enemies protecting your tree";
+                str = "This is a Defender Node (Grey).\nIt helps shoot down incoming enemy raids, protecting your tree";
+                pointDir = PointDir.DOWN;
+                nextStep = 50;
+                break;
+            case 50:
+                node = null;
+                for(Node n: Balancing.bst.nodes){
+                    if(n.getClass() == FreezeNode.class){
+                        node = n;
+                        break;
+                    }
+                }
+                if(node != null){
+                    eeMap = gameViewport.getCamera().project(new Vector3(node.x, node.y, 0));
+                }
+                else{
+                    eeMap = gameViewport.getCamera().project(new Vector3((Balancing.bst.root!=null)?Balancing.bst.root.x:0, (Balancing.bst.root!=null)?Balancing.bst.root.y:0, 0));
+                }
+                nodeScreenX = eeMap.x;
+                nodeScreenY = eeMap.y;
+                nodeScreenY = Gdx.graphics.getHeight() - nodeScreenY;
+                mousePos = screenViewport.getCamera().unproject(new Vector3(nodeScreenX, nodeScreenY, 0));
+                xR = mousePos.x;
+                yR = mousePos.y;
+                str = "This is a Freeze Node (Cyan).\nIt shoots snowballs to freeze incoming enemies for a short period of time";
                 pointDir = PointDir.DOWN;
                 nextStep = 8;
                 break;
             case 8:
                 xR = 250;
                 yR = 50;
-                str = "Now its node manipulation you can delete and rotate the node as you want by choosing the mode in the right top corner";
+                str = "Now, it's node manipulation. You can delete and rotate nodes as you wish by choosing the mode in the top-right corner";
                 pointDir = PointDir.DOWN;
                 nextStep = 9;
                 break;
             case 9:
                 xR = 250;
                 yR = 50;
-                str = "If you are ready press READY Button to go to the invasion phrase";
+                str = "Ready? Press READY button for invasion phase";
                 pointDir = PointDir.DOWN;
                 nextStep = -1;
                 if(ClockPhrase.phrase.phrase == ClockPhrase.Phrase.INVASION){
@@ -227,23 +278,7 @@ public class UINavigation {
             case 13:
                 xR = screenViewport.getScreenWidth()-250;
                 yR = 40;
-                str = "After you complete the node traversal you will get one node for free";
-                pointDir = PointDir.DOWN;
-                nextStep = 14;
-                reCheck = true;
-                break;
-            case 14:
-                xR = screenViewport.getScreenWidth()-250;
-                yR = 40;
-                str = "This is your Node Inventory, its collects the nodes you get";
-                pointDir = PointDir.DOWN;
-                nextStep = 15;
-                reCheck = true;
-                break;
-            case 15:
-                xR = screenViewport.getScreenWidth()-250;
-                yR = 40;
-                str = "Select one node and DRAG to the position for node Insertion";
+                str = "After you complete the node traversal, you will receive one free node.\nThis is your Node Inventory, which collects the nodes you acquire.\nSelect a node, then DRAG it to the desired position for insertion";
                 reCheck = true;
                 pointDir = PointDir.DOWN;
                 if(Balancing.bst.onNode != null){
@@ -251,23 +286,15 @@ public class UINavigation {
                 }
                 break;
             case 16:
-                Node s16node = null;
-                boolean lefts16 = true;
-                for(Node n: Balancing.bst.nodes){
-                    if(n != Balancing.bst.onNode && Balancing.bst.onNode != null){
-                        if(n.left == null && Balancing.bst.onNode.value <= n.value){
-                            s16node = n;
-                            break;
-                        }
-                        else if(n.right == null && Balancing.bst.onNode.value > n.value){
-                            s16node = n;
-                            lefts16 = false;
-                            break;
-                        }
+                Node s16node = Balancing.bst.root;
+                boolean lefts16 = false;
+                for(Node node2: Balancing.bst.nodes){
+                    if(s16node.value < node2.value && node2 != Balancing.bst.onNode){
+                        s16node = node2;
                     }
                 }
                 if(s16node != null){
-                    eeMap = gameViewport.getCamera().project(new Vector3(s16node.initX+ (BinarySearchTree.xyRange-10)*((lefts16)?-1:1),s16node.initY-BinarySearchTree.xyRange, 0));
+                    eeMap = gameViewport.getCamera().project(new Vector3(s16node.initX+ (BinarySearchTree.xyRange)*((lefts16)?-1:1),s16node.initY-BinarySearchTree.xyRange, 0));
                     nodeScreenX = eeMap.x;
                     nodeScreenY = eeMap.y;
 
@@ -288,7 +315,7 @@ public class UINavigation {
             case 17:
                 xR = screenViewport.getScreenWidth()/2;
                 yR = 40;
-                str = "Nice finally you have understand how to play, Good luck!";
+                str = "Nice, you finally understand how to play.\nGood luck!";
                 reCheck = true;
                 pointDir = PointDir.DOWN;
                 nextStep = 18;

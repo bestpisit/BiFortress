@@ -24,8 +24,8 @@ public class FreezeCell extends CanonCell{
                     if(Balancing.canonCells.indexOf(this,true) != -1){
                         Balancing.canonCells.removeIndex(Balancing.canonCells.indexOf(this,true));
                     }
-                    ene.getHit(power);
-                    ene.getFreeze(2);
+                    ene.getHit(0);
+                    ene.getFreeze(1.5f*power);
                 }
             }
         }

@@ -19,7 +19,7 @@ import static com.mygdx.bifortress.BiFortress.spriteBatch;
 public class Node {
     public float x,y,radius,xR,yR;
     public Node left,right,parent;
-    BitmapFont font = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
+    public static BitmapFont font = new BitmapFont(Gdx.files.internal("Font/BerlinSans/BerlinSans.fnt"));
     public int value,depth;
     public float initRadius,initX,initY,toggleX,toggleY,toggleDistance;
     public boolean toggle,tToggle,actionToggle;
@@ -74,7 +74,7 @@ public class Node {
     public void update(ShapeRenderer shapeRenderer,Vector3 mousePos){
         updateSelf();
         if(this.pow < 0 && this.getClass() != Node.class){
-            dispose();
+//            dispose();
             origin.delete(this);
         }
         if(this.pow > this.power){

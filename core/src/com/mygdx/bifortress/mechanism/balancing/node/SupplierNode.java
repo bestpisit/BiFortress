@@ -2,10 +2,14 @@ package com.mygdx.bifortress.mechanism.balancing.node;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.bifortress.mechanism.balancing.BinarySearchTree;
 import com.mygdx.bifortress.mechanism.balancing.cell.PowerCell;
+
+import static com.mygdx.bifortress.BiFortress.*;
 
 public class SupplierNode extends Node {
     public static final Color color = Color.LIME;
@@ -61,6 +65,11 @@ public class SupplierNode extends Node {
         shapeRenderer.setColor(Color.LIME);
         shapeRenderer.circle(this.initX, this.initY, initRadius-5);
         shapeRenderer.end();
+        spriteBatch.begin();
+        Sprite sprite = new Sprite(manager.<Texture>get("Terrain/tree.png"));
+        sprite.setBounds(this.initX-24,this.initY+15,48,62);
+        sprite.draw(spriteBatch);
+        spriteBatch.end();
     }
     public void emitPower(){
         origin.cells.add(new PowerCell(this.x,this.y,5,this,origin));

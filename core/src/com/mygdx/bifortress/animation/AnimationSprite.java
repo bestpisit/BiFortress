@@ -37,6 +37,7 @@ public enum AnimationSprite {
     ORANGE(("Items/Fruits/Orange.png"),1,17 ),
     PINEAPPLE(("Items/Fruits/Pineapple.png"),1,17 ),
     Strawberry(("Items/Fruits/Strawberry.png"),1,17 ),
+    Tree("Terrain/tree.png",1,1)
     ;
     public final String value;
     public final int row,col;
@@ -44,7 +45,7 @@ public enum AnimationSprite {
         if(!manager.contains(value)){
             manager.load(value, Texture.class);
         }
-        if(value == ("Items/Fruits/Strawberry.png")){
+        if(value == ("Terrain/tree.png")){
             BiFortress.isUpdateAsset = true;
         }
         this.value = value;
